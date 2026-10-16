@@ -996,8 +996,8 @@ document.addEventListener("click", async e => {
   if (a === "maillogin"){
     const email = $("#lemail").value.trim(), m = $("#loginmsg");
     if (!email) { m.textContent = "Upiši email."; return; }
-    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: location.origin + location.pathname, shouldCreateUser: true } });
-    m.textContent = error ? "Greška: " + error.message : "Link za prijavu je poslan na email. Otvori ga na ovom uređaju.";
+    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: location.origin + location.pathname, shouldCreateUser: false } });
+    m.textContent = error ? "Prijava nije moguća za ovaj email." : "Link za prijavu je poslan na email. Otvori ga na ovom uređaju.";
     return;
   }
 });
