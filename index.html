@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="hr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#2C6A4D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Privatno">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Matko Privatno</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-bleed image backdrop, floating glass top bar (bottom tab bar on phones), each section opens with a hero that carries a live graphic, then glass panels */
+:root{
+  --bg:#040A12; --glass:rgba(10,20,32,.62); --glass-2:rgba(16,30,46,.72); --sunk:rgba(255,255,255,.05);
+  --ink:#E7F0F4; --muted:#8FA6B4; --line:rgba(140,190,220,.14); --line-2:rgba(140,190,220,.26);
+  --accent:#3DD6AE; --accent-2:#4AA6FF; --accent-ink:#04120E; --accent-soft:rgba(61,214,174,.14);
+  --warn:#F0A65A; --warn-soft:rgba(240,166,90,.14); --bad:#F07C7C; --bad-soft:rgba(240,124,124,.14); --miss:rgba(160,190,210,.28);
+  --grad:linear-gradient(135deg,#3DD6AE 0%,#4AA6FF 100%);
+  --f-display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --r:14px; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:rgba(4,10,18,.85)}
+.backdrop{position:fixed;inset:0;z-index:-1;background:url("bg.jpg") center/cover no-repeat,var(--bg)}
+.backdrop::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(4,10,18,.35) 0%,rgba(4,10,18,.7) 100%)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15;letter-spacing:-.01em}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.muted{color:var(--muted)}
+.eyebrow{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.glass,.panel{background:var(--glass);border:1px solid var(--line);border-radius:var(--r);backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%)}
+
+/* top bar */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding-block:12px}
+.topbar{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 14px;border-radius:16px;background:rgba(8,16,26,.6);border:1px solid var(--line);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.brand{font-family:var(--f-display);font-weight:700;font-size:17px;display:flex;align-items:center;gap:10px;background:none;border:0;padding:0}
+.brand i{width:28px;height:28px;border-radius:9px;background:var(--grad);display:inline-grid;place-items:center;color:var(--accent-ink);font-style:normal;font-size:14px;box-shadow:0 0 18px rgba(61,214,174,.35)}
+.nav{display:flex;gap:2px;margin-left:10px;padding:3px;border-radius:11px;background:var(--sunk)}
+.nav button{border:0;background:transparent;color:var(--muted);padding:7px 14px;border-radius:8px;font-weight:500;display:flex;align-items:center;gap:7px;transition:background .25s,color .25s}
+.nav button svg{width:16px;height:16px}
+.nav button:hover{color:var(--ink)}
+.nav button.on{background:rgba(61,214,174,.14);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(61,214,174,.35)}
+.top .sp{flex:1}
+.sync{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--miss)}
+.dot.ok{background:var(--accent);box-shadow:0 0 8px var(--accent)} .dot.busy{background:var(--warn)} .dot.err{background:var(--bad)}
+.iconbtn{border:1px solid var(--line);background:var(--sunk);border-radius:10px;width:38px;height:38px;display:grid;place-items:center;transition:border-color .2s,transform .2s}
+.iconbtn:hover{border-color:var(--line-2)}
+.iconbtn:hover svg{transform:rotate(45deg)} .iconbtn svg{transition:transform .4s}
+
+/* bottom nav (phone) */
+.bnav{display:none}
+@media (max-width:720px){
+  .nav,.sync #synctxt{display:none}
+  .bnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:6;justify-content:space-around;padding:8px max(16px,env(safe-area-inset-right,0px)) calc(8px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(6,13,22,.82);border-top:1px solid var(--line);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  .bnav button{border:0;background:none;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:500;padding:4px 14px;border-radius:12px;position:relative}
+  .bnav button svg{width:22px;height:22px}
+  .bnav button.on{color:var(--accent)}
+  .bnav button.on::before{content:"";position:absolute;top:-9px;left:30%;right:30%;height:2px;border-radius:2px;background:var(--grad);box-shadow:0 0 10px var(--accent)}
+  main{padding-bottom:calc(90px + env(safe-area-inset-bottom,0px))!important}
+}
+
+.banner{margin-bottom:4px}
+.banner .wrap>div{background:var(--warn-soft);border:1px solid rgba(240,166,90,.25);color:var(--ink);font-size:13px;border-radius:12px;padding:8px 12px}
+
+main{padding-block:12px 60px}
+@media (prefers-reduced-motion:no-preference){
+  .enter>*{animation:rise .5s cubic-bezier(.2,.7,.2,1) both}
+  .enter>*:nth-child(2){animation-delay:.05s}.enter>*:nth-child(3){animation-delay:.1s}.enter>*:nth-child(4){animation-delay:.15s}.enter>*:nth-child(n+5){animation-delay:.2s}
+  .draw{stroke-dasharray:var(--len,1200);stroke-dashoffset:var(--len,1200);animation:draw 1.6s cubic-bezier(.4,0,.2,1) .15s forwards}
+  .ringarc{animation:ringin 1.4s cubic-bezier(.4,0,.2,1) .1s both}
+  .float{animation:float 6s ease-in-out infinite}
+  .pulse{animation:pulse 2.4s ease-in-out infinite}
+  .cell.pop{animation:pop .35s cubic-bezier(.3,1.6,.5,1)}
+  .tile,.mcard,.libitem{transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s}
+}
+@keyframes rise{from{opacity:.001;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes ringin{from{stroke-dashoffset:var(--len)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes pop{0%{transform:scale(.7)}100%{transform:scale(1)}}
+
+/* buttons */
+.btn{border:1px solid var(--line-2);background:var(--sunk);border-radius:10px;padding:8px 14px;font-weight:500;display:inline-flex;align-items:center;gap:6px;transition:border-color .2s,background .2s,box-shadow .2s}
+.btn:hover{border-color:rgba(140,190,220,.45);background:rgba(255,255,255,.08)}
+.btn.pri{background:var(--grad);border-color:transparent;color:var(--accent-ink);font-weight:600}
+.btn.pri:hover{box-shadow:0 0 20px rgba(61,214,174,.35)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted)}
+.btn.danger{color:var(--bad);border-color:rgba(240,124,124,.35);background:transparent}
+.btn.sm{padding:5px 11px;font-size:13px}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:18px;align-items:center;padding:24px 26px;margin-bottom:16px;overflow:hidden;position:relative}
+.hero h1{font-size:clamp(28px,4vw,40px)}
+.hero .lead{color:var(--muted);margin:8px 0 0;max-width:46ch}
+.hero .facts{display:flex;flex-wrap:wrap;gap:22px;margin-top:18px}
+.hero .facts b{display:block;font-family:var(--f-mono);font-size:24px;font-weight:500;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .facts span{font-size:12.5px;color:var(--muted)}
+.hero svg{width:100%;height:auto;display:block;max-height:220px}
+.hero svg text{font-family:var(--f-mono);font-size:11px;fill:var(--muted)}
+@media (max-width:720px){.hero{grid-template-columns:1fr;padding:20px}.hero svg{max-height:170px}}
+.tabsrow{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.tabs{display:flex;gap:4px;padding:4px;border-radius:12px;width:max-content;max-width:100%;overflow-x:auto;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.tabs button{border:0;background:none;padding:7px 16px;border-radius:9px;font-weight:500;color:var(--muted);white-space:nowrap;transition:background .25s,color .25s}
+.tabs button[aria-selected="true"]{background:rgba(255,255,255,.09);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
+
+/* home */
+.hello{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:26px;margin-bottom:16px}
+.hello h1{font-size:clamp(28px,5vw,44px)}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .v{position:absolute;inset:0;display:grid;place-items:center;text-align:center;line-height:1.1}
+.ring .v b{font-family:var(--f-mono);font-size:28px;font-weight:500}
+.ring .v span{display:block;font-size:11px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.tile{text-align:left;padding:20px;display:flex;flex-direction:column;gap:14px;min-height:210px;position:relative;overflow:hidden;color:inherit}
+.tile:hover{transform:translateY(-3px);border-color:rgba(61,214,174,.4);box-shadow:0 14px 40px rgba(0,0,0,.35),0 0 0 1px rgba(61,214,174,.15)}
+.tile .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);border:1px solid rgba(61,214,174,.25)}
+.tile .ic svg{width:22px;height:22px}
+.tile h2{font-size:24px}
+.tile .go{position:absolute;right:18px;top:20px;color:var(--muted);transition:transform .25s,color .25s}
+.tile:hover .go{transform:translateX(4px);color:var(--accent)}
+.tile .meta{display:flex;flex-direction:column;gap:3px;font-size:14px}
+.tile.soon{opacity:.5;cursor:default}
+.tile.soon:hover{transform:none;border-color:var(--line);box-shadow:none}
+.bar{height:6px;border-radius:3px;background:var(--sunk);overflow:hidden}
+.bar>span{display:block;height:100%;background:var(--grad);border-radius:3px}
+
+.stack{display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.pad{padding:16px}
+
+/* identity */
+.identity{display:flex;gap:12px;align-items:flex-start;padding:14px 18px}
+.identity .q{font-family:var(--f-display);font-size:19px;font-weight:600;flex:1;min-width:0}
+.identity .q span{color:var(--muted);font-weight:500}
+.alerts{display:flex;flex-direction:column;gap:6px}
+.alert{border-radius:10px;padding:9px 13px;font-size:14px;border:1px solid transparent}
+.alert.w{background:var(--warn-soft);border-color:rgba(240,166,90,.25)} .alert.b{background:var(--bad-soft);border-color:rgba(240,124,124,.25)}
+.alert b{font-weight:600}
+
+/* habit grid */
+.gridwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.hg{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%}
+.hg th,.hg td{padding:0;border-bottom:1px solid var(--line)}
+.hg thead th{font-weight:500;font-size:11px;color:var(--muted);padding:8px 0 6px;text-align:center}
+.hg thead th .d{display:block;font-family:var(--f-mono);font-size:14px;color:var(--ink)}
+.hg thead th.today{color:var(--accent)} .hg thead th.today .d{color:var(--accent);font-weight:600}
+.hg .name{position:sticky;left:0;z-index:1;background:#0D1A28;text-align:left;padding:8px 12px 8px 16px;min-width:150px;max-width:210px;border-right:1px solid var(--line)}
+.hg thead .name{z-index:2}
+.hg .name .t{font-weight:500;display:block;line-height:1.25}
+.hg .name .f{font-size:12px;color:var(--muted)}
+.hg .name .s{font-size:12px;color:var(--accent);font-family:var(--f-mono)}
+.hg tr.grp td{background:rgba(255,255,255,.035);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);padding:6px 16px}
+.hg tr.grp td.name{background:#101E2D}
+.hg td.c{text-align:center;width:44px;min-width:44px}
+.hg td.c.today{background:rgba(61,214,174,.07)}
+.cell{width:34px;height:34px;margin:5px;border-radius:10px;border:1.5px solid var(--line-2);background:transparent;display:grid;place-items:center;padding:0;transition:background .15s,border-color .15s,box-shadow .2s}
+.cell svg{width:18px;height:18px}
+.cell.done{background:var(--grad);border-color:transparent;color:var(--accent-ink);box-shadow:0 0 14px rgba(61,214,174,.28)}
+.cell.due{border-color:rgba(61,214,174,.55);box-shadow:inset 0 0 0 1px rgba(61,214,174,.1)}
+.cell.due:hover{background:var(--accent-soft)}
+.cell.miss{border-color:var(--miss);border-style:dashed}
+.cell.miss::after{content:"";width:10px;height:1.5px;background:var(--miss);transform:rotate(-45deg)}
+.cell.off{border-color:transparent}
+.cell.off::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--miss)}
+.cell.off.done::after,.cell.miss.done::after{display:none}
+.cell.future{opacity:.3;cursor:default}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);padding:10px 16px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend .cell{width:16px;height:16px;margin:0;border-radius:5px;box-shadow:none}
+.legend .cell svg{width:10px;height:10px}
+
+/* stats */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{padding:14px 16px}
+.kpi .v{font-family:var(--f-mono);font-size:28px;font-weight:500;line-height:1.1}
+.kpi .l{font-size:13px;color:var(--muted)}
+.chart svg{display:block;width:100%;height:auto}
+.chart text{fill:var(--muted);font-family:var(--f-mono);font-size:10px}
+.chart .gl{stroke:var(--line);stroke-width:1}
+.chart .b{fill:url(#gbar)}
+.chart .b.lo{fill:var(--warn)}
+.ht{width:100%;border-collapse:collapse;font-size:14px}
+.ht th{text-align:left;font-size:12px;color:var(--muted);font-weight:500;padding:9px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.ht td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.ht td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.strip{display:flex;gap:2px}
+.strip i{width:7px;height:16px;border-radius:2px;background:var(--sunk)}
+.strip i.d{background:var(--accent)} .strip i.m{background:rgba(240,124,124,.35)}
+.pill{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;font-weight:600}
+.pill.g{background:var(--accent-soft);color:var(--accent)} .pill.w{background:var(--warn-soft);color:var(--warn)} .pill.b{background:var(--bad-soft);color:var(--bad)}
+.insight{font-size:14px;line-height:1.55}
+.insight li{margin-bottom:5px}
+.insight b{color:var(--ink)}
+
+/* manage */
+.hlist{display:flex;flex-direction:column}
+.hitem{display:flex;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.hitem:last-child{border-bottom:0}
+.hitem .main{flex:1;min-width:0}
+.hitem .t{font-weight:500}
+.hitem .laws{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lib{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.libitem{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;gap:10px;align-items:center;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.libitem:hover{border-color:var(--line-2);transform:translateY(-2px)}
+.libitem .main{flex:1;min-width:0}
+.libitem .t{font-weight:500;font-size:14px}
+.libitem .f{font-size:12px;color:var(--muted)}
+.howto{padding:16px 18px;border-color:rgba(61,214,174,.25);background:linear-gradient(135deg,rgba(61,214,174,.10),rgba(74,166,255,.06)),var(--glass)}
+.laws4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:12px}
+.laws4 div{border-left:2px solid var(--accent);padding:2px 0 2px 10px;font-size:14px}
+.laws4 b{display:block;font-family:var(--f-display);font-size:15px}
+
+/* sheet */
+.scrim{position:fixed;inset:0;background:rgba(2,6,12,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+@media (min-width:700px){.scrim{align-items:center}}
+.sheet{background:rgba(12,22,34,.94);border:1px solid var(--line-2);width:100%;max-width:640px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:20px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));box-shadow:0 20px 60px rgba(0,0,0,.5)}
+@media (min-width:700px){.sheet{border-radius:18px;padding:24px}}
+@media (prefers-reduced-motion:no-preference){.sheet{animation:rise .3s cubic-bezier(.2,.7,.2,1)}}
+.sheet h2{font-size:22px;margin-bottom:14px}
+.field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.field label{font-size:13px;font-weight:600}
+.field .hint{font-size:12px;color:var(--muted)}
+input[type=text],input[type=number],input[type=date],input[type=email],select,textarea{border:1px solid var(--line-2);background:rgba(255,255,255,.05);border-radius:10px;padding:8px 10px;width:100%;min-width:0;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none}
+select option{background:#0C1622;color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.row select{width:auto}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line-2);background:rgba(255,255,255,.04);border-radius:10px;padding:6px 12px;font-size:14px}
+.seg button[aria-pressed="true"]{background:var(--grad);border-color:transparent;color:var(--accent-ink);font-weight:600}
+.law{border-left:2px solid var(--accent);padding-left:12px;margin-bottom:12px}
+.law .n{font-family:var(--f-mono);font-size:11px;color:var(--accent);font-weight:500}
+.sheetfoot{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:16px}
+.sheetfoot .r{display:flex;gap:8px;margin-left:auto}
+
+/* meals */
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line-2);background:var(--glass);border-radius:99px;padding:5px 12px;font-size:13px;font-weight:500;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.chip[aria-pressed="true"]{background:var(--grad);color:var(--accent-ink);border-color:transparent}
+.chip[aria-pressed="true"] .muted{color:var(--accent-ink);opacity:.7}
+.mgroup{margin-bottom:18px}
+.mgroup h3{font-size:17px;margin-bottom:8px;display:flex;align-items:baseline;gap:8px}
+.mcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px}
+.mcard{text-align:left;padding:13px 15px;display:flex;flex-direction:column;gap:6px;color:inherit}
+.mcard:hover{border-color:rgba(61,214,174,.4);transform:translateY(-2px)}
+.mcard .t{font-weight:600;font-family:var(--f-display);font-size:16px}
+.mcard .i{font-size:13px;color:var(--muted);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tag{font-size:10.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.ing{display:grid;grid-template-columns:minmax(0,1fr) 84px 92px 36px;gap:6px;margin-bottom:6px;align-items:center}
+.ing .x{border:0;background:none;color:var(--muted);font-size:18px}
+.inghead{display:grid;grid-template-columns:minmax(0,1fr) 84px 92px 36px;gap:6px;font-size:12px;color:var(--muted);margin-bottom:4px}
+.week{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.day{padding:13px 15px}
+.day.now{border-color:rgba(61,214,174,.5);box-shadow:0 0 0 1px rgba(61,214,174,.15),0 0 30px rgba(61,214,174,.08)}
+.day h3{font-size:16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:baseline}
+.slot{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.slot label{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.shop{display:flex;flex-direction:column}
+.sitem{display:flex;gap:12px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .2s}
+.sitem:hover{background:rgba(255,255,255,.03)}
+.sitem:last-child{border-bottom:0}
+.sitem input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.sitem .nm{flex:1;min-width:0}
+.sitem .nm small{display:block;color:var(--muted);font-size:12px}
+.sitem .q{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-weight:500;white-space:nowrap}
+.sitem.got .nm,.sitem.got .q{text-decoration:line-through;color:var(--muted)}
+
+/* login */
+.login{max-width:400px;margin:8vh auto 0;padding:28px}
+.login h1{font-size:30px;margin-bottom:6px}
+.or{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px;margin:16px 0}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.msg{font-size:14px;margin-top:10px}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--grad);color:var(--accent-ink);font-weight:600;padding:9px 18px;border-radius:10px;font-size:14px;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+@media (min-width:721px){.toast{bottom:24px}}
+@media (max-width:520px){.hg .name{min-width:128px;max-width:150px}.hello{padding:20px}.ring{width:104px;height:104px}.ring .v b{font-size:22px}}
+</style>
+
+<div class="backdrop" aria-hidden="true"></div>
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="topbar">
+  <button class="brand" data-go="home"><i>M</i>Privatno</button>
+  <nav class="nav" aria-label="Sekcije"><button data-go="home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Početna</span></button><button data-go="habits" data-nav="habits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="m14.5 17.5 2 2 4-4.5"/></svg><span>Navike</span></button><button data-go="food" data-nav="food"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7"/><circle cx="12" cy="13" r="3.5"/><path d="M4 3v5M2.5 3v3.5a1.5 1.5 0 0 0 3 0V3M20 3c-1.5 1-2 2.5-2 5h2v13"/></svg><span>Prehrana</span></button></nav>
+  <span class="sp"></span>
+  <span class="sync" id="sync"><span class="dot"></span><span id="synctxt"></span></span>
+  <button class="iconbtn" data-act="settings" aria-label="Postavke" title="Postavke"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+</div></div></header>
+<div class="banner" id="banner" hidden><div class="wrap"><div id="bannertxt"></div></div></div>
+<main><div class="wrap" id="view"></div></main>
+<nav class="bnav" aria-label="Sekcije"><button data-go="home" data-nav="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Početna</span></button><button data-go="habits" data-nav="habits"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="m14.5 17.5 2 2 4-4.5"/></svg><span>Navike</span></button><button data-go="food" data-nav="food"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7"/><circle cx="12" cy="13" r="3.5"/><path d="M4 3v5M2.5 3v3.5a1.5 1.5 0 0 0 3 0V3M20 3c-1.5 1-2 2.5-2 5h2v13"/></svg><span>Prehrana</span></button></nav>
+<div id="sheetroot"></div>
+
+<script>
+/* ============ KONFIGURACIJA ============
+   Prazno = demo način (podaci samo na ovom uređaju).
+   Upiši Supabase Project URL i publishable key za sinkronizaciju. */
+const CONFIG = { SUPABASE_URL: "", SUPABASE_KEY: "" };
+const SB_SRC = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";
+
+/* ============ pomoćne ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Math.random().toString(36).slice(2, 10) + Date.now().toString(36).slice(-4);
+const pad2 = n => String(n).padStart(2, "0");
+const ymd = d => `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+const parse = s => { const [y,m,d] = s.split("-").map(Number); return new Date(y, m-1, d); };
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate()+n); return x; };
+const dayNum = d => Math.round(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 864e5);
+const diffDays = (a, b) => dayNum(b) - dayNum(a);
+const isoDow = d => (d.getDay() + 6) % 7;
+const todayStr = () => ymd(new Date());
+const DOW = ["Pon","Uto","Sri","Čet","Pet","Sub","Ned"];
+const DOW_FULL = ["Ponedjeljak","Utorak","Srijeda","Četvrtak","Petak","Subota","Nedjelja"];
+const MON = ["sij","velj","ožu","tra","svi","lip","srp","kol","ruj","lis","stu","pro"];
+const fmtNum = n => (Math.round(n*100)/100).toLocaleString("hr-HR", {maximumFractionDigits:2});
+const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+const ICON = {'home': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>', 'habits': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><path d="m14.5 17.5 2 2 4-4.5"/></svg>', 'food': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="7"/><circle cx="12" cy="13" r="3.5"/><path d="M4 3v5M2.5 3v3.5a1.5 1.5 0 0 0 3 0V3M20 3c-1.5 1-2 2.5-2 5h2v13"/></svg>'};
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+function toast(t){ const el = document.createElement("div"); el.className = "toast"; el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2200); }
+const lsGet = k => { try { return localStorage.getItem(k); } catch(e){ return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch(e){} };
+
+/* ============ podaci ============ */
+const KEYS = ["habits","checks","identity","meals","plan","bought"];
+let S = { habits:[], checks:{}, identity:"", meals:[], plan:{}, bought:{} };
+let sb = null, user = null;
+const DEMO = !CONFIG.SUPABASE_URL;
+const pending = new Set(); let saveTimer = null;
+
+function setSync(state, txt){ const d = $("#sync .dot"); d.className = "dot " + state; $("#synctxt").textContent = txt; }
+
+function save(key){
+  pending.add(key);
+  clearTimeout(saveTimer);
+  setSync("busy", "Spremam…");
+  saveTimer = setTimeout(flush, 500);
+}
+async function flush(){
+  const keys = [...pending]; pending.clear();
+  if (DEMO){ lsSet("pwp_demo", JSON.stringify(S)); setSync("", "Demo · samo ovaj uređaj"); return; }
+  try{
+    const rows = keys.map(k => ({ user_id:user.id, key:k, value:S[k], updated_at:new Date().toISOString() }));
+    const { error } = await sb.from("app_data").upsert(rows);
+    if (error) throw error;
+    setSync("ok", "Sinkronizirano");
+  }catch(e){ keys.forEach(k => pending.add(k)); setSync("err", "Nije spremljeno – pokušavam ponovno"); clearTimeout(saveTimer); saveTimer = setTimeout(flush, 5000); }
+}
+async function loadRemote(){
+  const { data, error } = await sb.from("app_data").select("key,value");
+  if (error) throw error;
+  const got = {};
+  (data || []).forEach(r => { got[r.key] = r.value; });
+  return got;
+}
+
+/* ============ učestalost ============ */
+function isDue(h, ds){
+  if (ds < h.start) return false;
+  const f = h.freq, d = parse(ds);
+  if (f.type === "daily") return true;
+  if (f.type === "weekdays") return (f.days || []).includes(isoDow(d));
+  const s = parse(h.start), n = Math.max(1, +f.n || 1);
+  if (f.unit === "day") return diffDays(s, d) % n === 0;
+  if (f.unit === "week") return diffDays(s, d) % (7*n) === 0;
+  if (f.unit === "month"){
+    const md = (d.getFullYear()-s.getFullYear())*12 + d.getMonth() - s.getMonth();
+    if (md % n) return false;
+    const last = new Date(d.getFullYear(), d.getMonth()+1, 0).getDate();
+    return d.getDate() === Math.min(s.getDate(), last);
+  }
+  return false;
+}
+function freqLabel(f){
+  if (f.type === "daily") return "Svaki dan";
+  if (f.type === "weekdays"){
+    const d = [...(f.days||[])].sort();
+    if (d.join() === "0,1,2,3,4") return "Pon–Pet";
+    if (d.join() === "5,6") return "Vikendom";
+    return d.map(i => DOW[i]).join(", ") || "Nijedan dan";
+  }
+  const n = +f.n || 1, u = {day:["dan","dana"], week:["tjedan","tjedna"], month:["mjesec","mjeseca"]}[f.unit];
+  if (n === 1) return f.unit === "day" ? "Svaki dan" : (f.unit === "week" ? "Jednom tjedno" : "Jednom mjesečno");
+  return `Svakih ${n} ${n < 5 ? u[1] : (f.unit==="day"?"dana":f.unit==="week"?"tjedana":"mjeseci")}`;
+}
+const isDone = (h, ds) => (S.checks[ds] || []).includes(h.id);
+const active = () => S.habits.filter(h => !h.archived);
+
+function streaks(h){
+  const t = todayStr(); let run = 0, best = 0;
+  const start = parse(h.start > ymd(addDays(new Date(), -730)) ? h.start : ymd(addDays(new Date(), -730)));
+  for (let d = start; ymd(d) <= t; d = addDays(d, 1)){
+    const ds = ymd(d);
+    if (!isDue(h, ds)) continue;
+    if (isDone(h, ds)) { run++; best = Math.max(best, run); }
+    else if (ds !== t) run = 0;
+  }
+  return { cur: run, best };
+}
+function rate(h, days){
+  const t = todayStr(); let due = 0, done = 0;
+  for (let i = 0; i < days; i++){
+    const ds = ymd(addDays(new Date(), -i));
+    if (!isDue(h, ds)) continue;
+    if (ds === t && !isDone(h, ds)) continue;
+    due++; if (isDone(h, ds)) done++;
+  }
+  return { due, done, p: pct(done, due) };
+}
+function dueBefore(h, n){ // zadnjih n termina prije danas
+  const out = []; let d = addDays(new Date(), -1);
+  for (let i = 0; i < 400 && out.length < n; i++, d = addDays(d, -1)){
+    const ds = ymd(d); if (ds < h.start) break;
+    if (isDue(h, ds)) out.push(ds);
+  }
+  return out;
+}
+
+/* ============ početni podaci ============ */
+const TIMES = { jutro:"Jutro", dan:"Tijekom dana", vecer:"Večer" };
+const LIB = [
+  { g:"Jutro", name:"Fitness", time:"jutro", freq:{type:"weekdays",days:[0,1,2,3,4]}, cue:"Kad se probudim u 4:30, obučem opremu koju sam pripremio večer prije.", attractive:"Za vrijeme treninga slušam omiljeni podcast samo tada.", easy:"Obuci opremu i napravi jednu seriju.", reward:"Kvačica u trackeru i proteinski shake nakon." },
+  { g:"Jutro", name:"Zdrav doručak", time:"jutro", freq:{type:"daily"}, cue:"Nakon tuširanja poslije treninga pripremim doručak iz plana.", attractive:"", easy:"Večer prije pripremi sastojke na pult.", reward:"" },
+  { g:"Jutro", name:"Tablete / suplementi", time:"jutro", freq:{type:"daily"}, cue:"Nakon što skuham kavu, uzmem tablete. Stoje pored aparata.", attractive:"", easy:"Kutija za tablete po danima, napunjena nedjeljom.", reward:"" },
+  { g:"Jutro", name:"Čaša vode nakon buđenja", time:"jutro", freq:{type:"daily"}, cue:"Prije kave popijem čašu vode. Čaša stoji pored aparata.", attractive:"", easy:"Samo jedna čaša.", reward:"" },
+  { g:"Jutro", name:"3 najvažnija zadatka dana", time:"jutro", freq:{type:"weekdays",days:[0,1,2,3,4]}, cue:"Kad sjednem u auto/za stol, zapišem 3 zadatka koja danas moraju biti gotova.", attractive:"", easy:"Napiši samo prvi.", reward:"" },
+  { g:"Tijekom dana", name:"Voda 2 L", time:"dan", freq:{type:"daily"}, cue:"Boca od 1 L uvijek na stolu, dvaput je ispraznim.", attractive:"", easy:"Napuni bocu ujutro.", reward:"" },
+  { g:"Tijekom dana", name:"Podcast / učenje u autu", time:"dan", freq:{type:"weekdays",days:[0,1,2,3,4]}, cue:"Kad upalim auto, pokrenem epizodu s liste.", attractive:"Samo edukativni sadržaj u autu – glazba poslije posla.", easy:"Epizoda već preuzeta večer prije.", reward:"" },
+  { g:"Tijekom dana", name:"Učenje AI 30 min", time:"dan", freq:{type:"weekdays",days:[1,3]}, cue:"Utorkom i četvrtkom nakon ručka otvorim jedan tutorial.", attractive:"", easy:"Otvori video i pogledaj 2 minute.", reward:"" },
+  { g:"Tijekom dana", name:"8.000 koraka", time:"dan", freq:{type:"daily"}, cue:"Nakon ručka 15 minuta šetnje.", attractive:"", easy:"Obuj tenisice i izađi.", reward:"" },
+  { g:"Tijekom dana", name:"Bez slatkiša", time:"dan", freq:{type:"daily"}, cue:"", attractive:"", easy:"Ne držati slatkiše kod kuće ni u uredu (učini nevidljivim).", reward:"" },
+  { g:"Večer", name:"Čitanje 10 stranica", time:"vecer", freq:{type:"daily"}, cue:"Kad legnem u krevet, čitam. Knjiga stoji na jastuku.", attractive:"", easy:"Pročitaj jednu stranicu.", reward:"" },
+  { g:"Večer", name:"Vrijeme s djecom bez mobitela", time:"vecer", freq:{type:"daily"}, cue:"Kad dođem kući, mobitel ide u ladicu na 1 sat.", attractive:"", easy:"10 minuta igre na podu.", reward:"" },
+  { g:"Večer", name:"Priprema za sutra", time:"vecer", freq:{type:"weekdays",days:[6,0,1,2,3]}, cue:"Nakon večere pripremim opremu za trening i torbu.", attractive:"", easy:"Samo složi opremu za trening.", reward:"" },
+  { g:"Večer", name:"Mobitel van spavaće sobe", time:"vecer", freq:{type:"daily"}, cue:"U 21:30 mobitel ide na punjač u dnevnom boravku.", attractive:"", easy:"Kupi običnu budilicu.", reward:"" },
+  { g:"Večer", name:"U krevetu do 22:00", time:"vecer", freq:{type:"weekdays",days:[6,0,1,2,3]}, cue:"U 21:30 alarm: kreće rutina za spavanje.", attractive:"", easy:"Samo legni u 22:00, ne moraš odmah zaspati.", reward:"" },
+  { g:"Večer", name:"Dnevnik: 3 stvari zahvalnosti", time:"vecer", freq:{type:"daily"}, cue:"Nakon pranja zuba zapišem 3 stvari.", attractive:"", easy:"Jedna rečenica.", reward:"" },
+  { g:"Tjedno i mjesečno", name:"Tjedni pregled", time:"vecer", freq:{type:"weekdays",days:[6]}, cue:"Nedjeljom u 20:00 otvorim tracker i analizu, plan za sljedeći tjedan.", attractive:"", easy:"Pogledaj samo analizu 5 minuta.", reward:"" },
+  { g:"Tjedno i mjesečno", name:"Plan obroka i kupovina", time:"dan", freq:{type:"weekdays",days:[5]}, cue:"Subotom ujutro složim plan prehrane i popis za trgovinu.", attractive:"", easy:"Otvori Prehrana → Plan.", reward:"" },
+  { g:"Tjedno i mjesečno", name:"Vrijeme u dvoje", time:"vecer", freq:{type:"interval",n:2,unit:"week"}, cue:"", attractive:"", easy:"", reward:"" },
+  { g:"Tjedno i mjesečno", name:"Pregled financija", time:"dan", freq:{type:"interval",n:1,unit:"month"}, cue:"Prvog u mjesecu pregledam troškove i ulaganja.", attractive:"", easy:"", reward:"" },
+];
+const DEFAULT_HABITS = ["Fitness","Zdrav doručak","Tablete / suplementi","Voda 2 L","Podcast / učenje u autu","U krevetu do 22:00","Tjedni pregled"];
+function habitFrom(l, start){ return { id:uid(), name:l.name, time:l.time, freq:JSON.parse(JSON.stringify(l.freq)), start, cue:l.cue||"", attractive:l.attractive||"", easy:l.easy||"", reward:l.reward||"", stack:"", archived:false }; }
+
+const MT = { dorucak:"Doručak", rucak:"Ručak", vecera:"Večera", uzina:"Užina" };
+const UNITS = ["g","kg","ml","l","kom","kmpl","žlica","žličica"];
+function exMeals(){
+  const m = (type, title, ing, notes) => ({ id:uid(), type, title, example:true, notes, ing: ing.map(([name,qty,unit]) => ({name,qty,unit})) });
+  return [
+    m("dorucak","Zobena kaša s bananom",[["Zobene pahuljice",60,"g"],["Mlijeko",250,"ml"],["Banana",1,"kom"],["Med",10,"g"]],"Pahuljice kuhati u mlijeku 3–4 min, dodati narezanu bananu i med."),
+    m("dorucak","Jaja i integralni kruh",[["Jaja",3,"kom"],["Integralni kruh",2,"kom"],["Rajčica",1,"kom"]],"Jaja kuhati 7 min. Kruh tostirati."),
+    m("rucak","Piletina, riža i brokula",[["Pileća prsa",150,"g"],["Riža",80,"g"],["Brokula",150,"g"],["Maslinovo ulje",10,"ml"]],"Piletinu začiniti i peći 6 min sa svake strane. Brokulu kuhati na pari 5 min."),
+    m("rucak","Tjestenina bolonjez",[["Tjestenina",100,"g"],["Mljeveno meso",120,"g"],["Pelati",200,"g"],["Luk",0.5,"kom"],["Maslinovo ulje",10,"ml"]],"Luk i meso popržiti, dodati pelate i kuhati 20 min."),
+    m("vecera","Salata s tunom",[["Tuna (konzerva)",1,"kom"],["Zelena salata",100,"g"],["Rajčica",1,"kom"],["Maslinovo ulje",10,"ml"]],""),
+    m("vecera","Omlet s povrćem",[["Jaja",3,"kom"],["Paprika",0.5,"kom"],["Sir",30,"g"]],"Povrće kratko popržiti, preliti umućenim jajima."),
+    m("uzina","Grčki jogurt i orasi",[["Grčki jogurt",200,"g"],["Orasi",20,"g"]],""),
+    m("uzina","Jabuka i bademi",[["Jabuka",1,"kom"],["Bademi",20,"g"]],""),
+  ];
+}
+function seed(withDemoChecks){
+  const start = ymd(addDays(new Date(), withDemoChecks ? -35 : 0));
+  S.habits = DEFAULT_HABITS.map(n => habitFrom(LIB.find(l => l.name === n), start));
+  S.identity = "zdrav, discipliniran otac koji drži riječ sam sebi";
+  S.meals = exMeals();
+  const by = t => S.meals.filter(m => m.type === t);
+  S.plan = {};
+  for (let d = 0; d < 7; d++) S.plan[d] = { dorucak:by("dorucak")[d%2].id, rucak:by("rucak")[d%2].id, vecera:by("vecera")[(d+1)%2].id, uzina:by("uzina")[d%2].id };
+  S.checks = {};
+  if (withDemoChecks){ // primjer povijesti, determinističan
+    let seedN = 7; const rnd = () => (seedN = (seedN * 9301 + 49297) % 233280) / 233280;
+    const prob = [0.8, 0.9, 0.95, 0.6, 0.85, 0.5, 0.9];
+    for (let i = 35; i >= 1; i--){
+      const ds = ymd(addDays(new Date(), -i));
+      S.habits.forEach((h, k) => { if (isDue(h, ds) && rnd() < prob[k] - (i < 8 ? 0.15 : 0)) (S.checks[ds] ||= []).push(h.id); });
+    }
+  }
+}
+
+/* ============ navigacija ============ */
+let animate = true, lastTog = null;
+let route = "home", tabH = "track", tabP = "meals", mealFilter = "all", days = 21, statRange = 30;
+function go(r){ route = r; animate = true; try { history.replaceState(null, "", "#" + r); } catch(e){ location.hash = r; } render(); window.scrollTo(0, 0); }
+function render(){
+  document.querySelectorAll("[data-nav]").forEach(b => b.classList.toggle("on", b.dataset.nav === route));
+  const v = $("#view");
+  if (animate){ v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter"); animate = false; } else v.classList.remove("enter");
+  if (!DEMO && !user) { v.innerHTML = vLogin(); return; }
+  if (route === "habits") v.innerHTML = vHabits();
+  else if (route === "food") v.innerHTML = vFood();
+  else v.innerHTML = vHome();
+  const gw = $(".gridwrap"); if (gw) gw.scrollLeft = gw.scrollWidth;
+  if (lastTog){ const c = document.querySelector(`[data-tog="${lastTog}"]`); if (c) c.classList.add("pop"); lastTog = null; }
+}
+
+/* ============ HOME ============ */
+function ring(p, label, sub){
+  const r = 54, c = 2*Math.PI*r, off = c*(1 - p/100);
+  return `<div class="ring"><svg viewBox="0 0 132 132" aria-hidden="true"><defs><linearGradient id="gring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3DD6AE"/><stop offset="1" stop-color="#4AA6FF"/></linearGradient></defs>
+    <circle cx="66" cy="66" r="${r}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="10"/>
+    <circle class="ringarc" style="--len:${c.toFixed(1)}" cx="66" cy="66" r="${r}" fill="none" stroke="url(#gring)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${c.toFixed(1)}" stroke-dashoffset="${off.toFixed(1)}"/></svg>
+    <div class="v"><div><b>${label}</b><span>${sub}</span></div></div></div>`;
+}
+function vHome(){
+  const t = todayStr(), due = active().filter(h => isDue(h, t)), done = due.filter(h => isDone(h, t));
+  const plan = S.plan[isoDow(new Date())] || {};
+  const name = id => (S.meals.find(m => m.id === id) || {}).title;
+  const h = new Date().getHours(), greet = h < 10 ? "Dobro jutro" : h < 18 ? "Dobar dan" : "Dobra večer";
+  const d = new Date();
+  const week = active().reduce((a, x) => { const r = rate(x, 7); a.d += r.done; a.t += r.due; return a; }, {d:0, t:0});
+  const left = due.filter(x => !isDone(x, t)).slice(0, 3).map(x => esc(x.name));
+  const arrow = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  return `
+  <section class="glass hello"><div><div class="eyebrow">${DOW_FULL[isoDow(d)]}, ${d.getDate()}. ${MON[d.getMonth()]} ${d.getFullYear()}.</div><h1>${greet}, Matko</h1>
+    <p class="muted" style="margin:8px 0 0">${due.length && done.length === due.length ? "Sve današnje navike su obavljene." : left.length ? `Još danas: ${left.join(" · ")}${due.length - done.length > 3 ? " …" : ""}` : "Danas nema navika na rasporedu."}</p></div>
+    ${ring(pct(done.length, due.length), `${done.length}/${due.length}`, "danas")}</section>
+  <div class="tiles">
+    <button class="tile glass" data-go="habits"><span class="go">${arrow}</span>
+      <span class="ic">${ICON.habits}</span>
+      <div><div class="eyebrow">Navike</div><h2>Atomic Habits</h2></div>
+      <div class="meta"><span><span class="num" style="font-size:22px">${pct(week.d, week.t)} %</span> <span class="muted">dosljednost zadnjih 7 dana</span></span></div>
+      <div class="bar"><span style="width:${pct(week.d, week.t)}%"></span></div>
+    </button>
+    <button class="tile glass" data-go="food"><span class="go">${arrow}</span>
+      <span class="ic">${ICON.food}</span>
+      <div><div class="eyebrow">Danas na meniju</div><h2>Prehrana</h2></div>
+      <div class="meta">${["dorucak","rucak","vecera","uzina"].map(k => `<span><span class="tag">${MT[k]}</span> &nbsp;${esc(name(plan[k]) || "—")}</span>`).join("")}</div>
+    </button>
+    <div class="tile glass soon" aria-disabled="true"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span><div><div class="eyebrow">Uskoro</div><h2>Nova sekcija</h2></div><span class="muted">Ulaganja, Razvoj, Bilješke…</span></div>
+  </div>`;
+}
+
+/* ============ ATOMIC HABITS ============ */
+function vHabits(){
+  return `
+  ${heroHabits()}
+  <div class="tabsrow"><span></span>
+    <div class="tabs" role="tablist">${[["track","Praćenje"],["stats","Analiza"],["manage","Navike"]].map(([k,l]) => `<button role="tab" aria-selected="${tabH===k}" data-tabh="${k}">${l}</button>`).join("")}</div>
+  </div>
+  ${tabH === "track" ? vTrack() : tabH === "stats" ? vStats() : vManage()}`;
+}
+function vTrack(){
+  const t = todayStr(), list = active();
+  const alerts = [];
+  list.forEach(h => {
+    const prev = dueBefore(h, 2);
+    if (!prev.length) return;
+    const miss1 = !isDone(h, prev[0]), miss2 = prev[1] && !isDone(h, prev[1]);
+    if (miss1 && miss2) alerts.push(`<div class="alert b"><b>${esc(h.name)}</b> propušteno dvaput zaredom. Danas napravi barem verziju od 2 minute${h.easy ? `: ${esc(h.easy)}` : ""}.</div>`);
+    else if (miss1 && isDue(h, t) && !isDone(h, t)) alerts.push(`<div class="alert w"><b>${esc(h.name)}</b> propušteno zadnji put. Pravilo: nikad dvaput zaredom.</div>`);
+  });
+  const cols = []; for (let i = days - 1; i >= 0; i--) cols.push(addDays(new Date(), -i));
+  let rows = "";
+  Object.keys(TIMES).forEach(tk => {
+    const g = list.filter(h => h.time === tk); if (!g.length) return;
+    rows += `<tr class="grp"><td class="name">${TIMES[tk]}</td><td colspan="${cols.length}"></td></tr>`;
+    g.forEach(h => {
+      const s = streaks(h);
+      rows += `<tr><th class="name" scope="row"><button class="btn ghost" style="padding:0;text-align:left;display:block;color:inherit" data-edit="${h.id}"><span class="t">${esc(h.name)}</span><span class="f">${freqLabel(h.freq)}</span>${s.cur > 1 ? ` <span class="s">· niz ${s.cur}</span>` : ""}</button></th>` +
+        cols.map(d => {
+          const ds = ymd(d), due = isDue(h, ds), done = isDone(h, ds), isT = ds === t, past = ds < t, before = ds < h.start;
+          let cls = "cell"; if (done) cls += " done"; else if (due && past) cls += " miss"; else if (due) cls += " due"; else cls += " off";
+          if (before) cls += " future";
+          return `<td class="c${isT ? " today" : ""}"><button class="${cls}" ${before ? "disabled" : `data-tog="${h.id}|${ds}"`} aria-label="${esc(h.name)} ${ds}${done ? " obavljeno" : ""}" aria-pressed="${done}">${done ? CHECK : ""}</button></td>`;
+        }).join("") + "</tr>";
+    });
+  });
+  const due = list.filter(h => isDue(h, t)), done = due.filter(h => isDone(h, t));
+  return `<div class="stack">
+    <div class="panel identity"><div class="q"><span>Postajem osoba koja je</span> ${esc(S.identity || "…")}</div><button class="btn sm" data-act="identity">Uredi</button></div>
+    ${alerts.length ? `<div class="alerts">${alerts.join("")}</div>` : ""}
+    <div class="panel">
+      <div class="row pad" style="justify-content:space-between;padding-bottom:6px">
+        <div><span class="eyebrow">Danas</span> <span class="num" style="font-size:20px;font-weight:500;margin-left:6px">${done.length}/${due.length}</span></div>
+        <div class="row"><select id="days" aria-label="Broj dana"><option value="7"${days===7?" selected":""}>7 dana</option><option value="14"${days===14?" selected":""}>14 dana</option><option value="21"${days===21?" selected":""}>21 dan</option><option value="31"${days===31?" selected":""}>31 dan</option></select>
+        <button class="btn pri sm" data-act="newhabit">+ Navika</button></div>
+      </div>
+      ${list.length ? `<div class="gridwrap"><table class="hg"><thead><tr><th class="name"></th>${cols.map(d => `<th class="${ymd(d)===t?"today":""}">${DOW[isoDow(d)]}<span class="d">${d.getDate()}</span></th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="legend"><span><span class="cell done">${CHECK}</span>obavljeno</span><span><span class="cell due"></span>na rasporedu</span><span><span class="cell miss"></span>propušteno</span><span><span class="cell off"></span>nije na rasporedu (klik = bonus)</span></div>`
+      : `<div class="empty">Još nema navika. Dodaj prvu ili odaberi iz prijedloga pod "Navike".</div>`}
+    </div>
+  </div>`;
+}
+function vStats(){
+  const list = active(), N = statRange, t = todayStr();
+  let tDue = 0, tDone = 0; const daily = [];
+  for (let i = N - 1; i >= 0; i--){
+    const ds = ymd(addDays(new Date(), -i)); let du = 0, dn = 0;
+    list.forEach(h => { if (!isDue(h, ds)) return; if (ds === t && !isDone(h, ds)) return; du++; if (isDone(h, ds)) dn++; });
+    daily.push({ ds, du, dn }); tDue += du; tDone += dn;
+  }
+  const wd = Array.from({length:7}, () => ({du:0, dn:0}));
+  daily.forEach(x => { const k = isoDow(parse(x.ds)); wd[k].du += x.du; wd[k].dn += x.dn; });
+  const per = list.map(h => ({ h, r: rate(h, N), s: streaks(h) }));
+  const perfect = daily.filter(x => x.du && x.dn === x.du).length;
+  const bestStreak = per.reduce((m, x) => Math.max(m, x.s.cur), 0);
+  const prev = (() => { let du = 0, dn = 0; for (let i = N; i < 2*N; i++){ const ds = ymd(addDays(new Date(), -i)); list.forEach(h => { if (isDue(h, ds)) { du++; if (isDone(h, ds)) dn++; } }); } return du ? pct(dn, du) : null; })();
+  const cur = pct(tDone, tDue);
+
+  // daily chart
+  const W = 640, H = 170, L = 30, B = 22, T = 8, cw = (W - L - 6) / daily.length;
+  const y = v => T + (H - T - B) * (1 - v / 100);
+  let svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Dnevni postotak izvršenja"><defs><linearGradient id="gbar" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#3DD6AE"/><stop offset="1" stop-color="#4AA6FF"/></linearGradient></defs>`;
+  [0, 50, 100].forEach(v => { svg += `<line class="gl" x1="${L}" x2="${W-4}" y1="${y(v)}" y2="${y(v)}"/><text x="${L-6}" y="${y(v)+3}" text-anchor="end">${v}</text>`; });
+  daily.forEach((x, i) => {
+    const p = x.du ? x.dn / x.du * 100 : 0, bx = L + i * cw + cw * .15, bw = cw * .7;
+    if (x.du) svg += `<rect class="b${p < 50 ? " lo" : ""}" x="${bx.toFixed(1)}" y="${y(p).toFixed(1)}" width="${bw.toFixed(1)}" height="${(y(0) - y(p)).toFixed(1)}" rx="2"><title>${x.ds}: ${x.dn}/${x.du}</title></rect>`;
+    const d = parse(x.ds);
+    if (i === 0 || i === daily.length - 1 || (daily.length <= 31 ? isoDow(d) === 0 : d.getDate() === 1)) svg += `<text x="${(L + i*cw + cw/2).toFixed(1)}" y="${H-6}" text-anchor="middle">${d.getDate()}.${d.getMonth()+1}.</text>`;
+  });
+  svg += "</svg>";
+  // weekday chart
+  const W2 = 320, H2 = 150, cw2 = (W2 - 30) / 7;
+  const y2 = v => 8 + (H2 - 30) * (1 - v / 100);
+  let svg2 = `<svg viewBox="0 0 ${W2} ${H2}" role="img" aria-label="Izvršenje po danu u tjednu">`;
+  [0, 50, 100].forEach(v => { svg2 += `<line class="gl" x1="26" x2="${W2-2}" y1="${y2(v)}" y2="${y2(v)}"/><text x="20" y="${y2(v)+3}" text-anchor="end">${v}</text>`; });
+  const wdp = wd.map(x => x.du ? pct(x.dn, x.du) : null);
+  wdp.forEach((p, i) => { const bx = 28 + i * cw2 + cw2 * .18; if (p !== null) svg2 += `<rect class="b${p < 50 ? " lo" : ""}" x="${bx.toFixed(1)}" y="${y2(p).toFixed(1)}" width="${(cw2*.64).toFixed(1)}" height="${(y2(0)-y2(p)).toFixed(1)}" rx="2"><title>${DOW[i]}: ${p} %</title></rect>`; svg2 += `<text x="${(28 + i*cw2 + cw2/2).toFixed(1)}" y="${H2-6}" text-anchor="middle">${DOW[i]}</text>`; });
+  svg2 += "</svg>";
+
+  const sorted = [...per].filter(x => x.r.due).sort((a, b) => a.r.p - b.r.p);
+  const weakDayI = wdp.reduce((m, p, i) => p !== null && (m < 0 || p < wdp[m]) ? i : m, -1);
+  const ins = [];
+  if (sorted.length){ const w = sorted[0]; ins.push(`Najslabija navika: <b>${esc(w.h.name)}</b> (${w.r.p} %). ${w.h.easy ? `Smanji je na verziju od 2 minute: ${esc(w.h.easy)}` : "Upiši joj verziju od 2 minute (Zakon 3) i jasan okidač (Zakon 1)."}`); }
+  if (weakDayI >= 0) ins.push(`Najslabiji dan: <b>${DOW_FULL[weakDayI]}</b> (${wdp[weakDayI]} %). Unaprijed odluči što taj dan radiš drugačije.`);
+  if (prev !== null) ins.push(cur >= prev ? `Napredak u odnosu na prethodnih ${N} dana: <b>+${cur - prev} p.b.</b>` : `Pad u odnosu na prethodnih ${N} dana: <b>${cur - prev} p.b.</b> Ne dodaji nove navike dok ovo ne vratiš iznad ${prev} %.`);
+  if (list.length > 8) ins.push(`Pratiš ${list.length} navika. Knjiga preporučuje mali broj: arhiviraj one ispod 40 % i fokusiraj se na temeljne.`);
+  const tone = p => p >= 80 ? "g" : p >= 50 ? "w" : "b";
+
+  return `<div class="stack">
+    <div class="row" style="justify-content:space-between"><span class="muted">Postotak = obavljeno / na rasporedu. Današnji dan se broji tek kad ga označiš.</span>
+      <select id="range" aria-label="Razdoblje"><option value="7"${N===7?" selected":""}>7 dana</option><option value="30"${N===30?" selected":""}>30 dana</option><option value="90"${N===90?" selected":""}>90 dana</option></select></div>
+    <div class="kpis">
+      <div class="panel kpi"><div class="v">${cur} %</div><div class="l">dosljednost (${N} dana)</div></div>
+      <div class="panel kpi"><div class="v">${tDone}<span class="muted" style="font-size:18px">/${tDue}</span></div><div class="l">obavljenih termina</div></div>
+      <div class="panel kpi"><div class="v">${perfect}</div><div class="l">savršenih dana</div></div>
+      <div class="panel kpi"><div class="v">${bestStreak}</div><div class="l">najduži trenutni niz</div></div>
+    </div>
+    <div class="panel pad chart"><div class="eyebrow" style="margin-bottom:8px">Dnevno izvršenje (%)</div>${svg}</div>
+    <div class="row" style="align-items:stretch">
+      <div class="panel pad chart" style="flex:1 1 280px;min-width:0"><div class="eyebrow" style="margin-bottom:8px">Po danu u tjednu (%)</div>${svg2}</div>
+      <div class="panel pad" style="flex:1 1 280px;min-width:0"><div class="eyebrow" style="margin-bottom:8px">Zaključci</div><ul class="insight" style="margin:0;padding-left:18px">${ins.map(x => `<li>${x}</li>`).join("") || "<li>Premalo podataka. Označavaj navike nekoliko dana.</li>"}</ul></div>
+    </div>
+    <div class="panel"><div style="overflow-x:auto"><table class="ht">
+      <thead><tr><th>Navika</th><th style="text-align:right">Izvršenje</th><th style="text-align:right">Niz</th><th style="text-align:right">Rekord</th><th>Zadnjih 30 dana</th></tr></thead>
+      <tbody>${per.map(({h, r, s}) => `<tr><td>${esc(h.name)}<div class="muted" style="font-size:12px">${freqLabel(h.freq)}</div></td>
+        <td class="n">${r.due ? `<span class="pill ${tone(r.p)}">${r.p} %</span> <span class="muted">${r.done}/${r.due}</span>` : "–"}</td>
+        <td class="n">${s.cur}</td><td class="n">${s.best}</td>
+        <td><div class="strip">${Array.from({length:30}, (_, i) => { const ds = ymd(addDays(new Date(), i - 29)); const dn = isDone(h, ds), du = isDue(h, ds); return `<i class="${dn ? "d" : (du && ds < t && ds >= h.start) ? "m" : ""}" title="${ds}"></i>`; }).join("")}</div></td></tr>`).join("")}</tbody>
+    </table></div></div>
+  </div>`;
+}
+function vManage(){
+  const list = S.habits.filter(h => !h.archived), arch = S.habits.filter(h => h.archived);
+  const groups = [...new Set(LIB.map(l => l.g))];
+  const have = new Set(S.habits.map(h => h.name.toLowerCase()));
+  return `<div class="stack">
+    <div class="panel howto">
+      <div class="eyebrow" style="color:var(--accent)">4 zakona promjene ponašanja</div>
+      <div class="laws4"><div><b>1 · Očito</b>Okidač: kad i gdje.</div><div><b>2 · Privlačno</b>Spoji s nečim što voliš.</div><div><b>3 · Lako</b>Verzija od 2 minute.</div><div><b>4 · Zadovoljavajuće</b>Nagrada odmah. Kvačica je jedna.</div></div>
+      <p class="muted" style="margin:12px 0 0;font-size:14px">Pravilo: nikad ne propusti dvaput zaredom.</p>
+    </div>
+    <div class="panel">
+      <div class="row pad" style="justify-content:space-between"><h2 style="font-size:18px">Moje navike <span class="muted num" style="font-size:14px">${list.length}</span></h2><button class="btn pri sm" data-act="newhabit">+ Nova navika</button></div>
+      <div class="hlist">${list.map(h => `<div class="hitem"><div class="main"><div class="t">${esc(h.name)} <span class="muted" style="font-size:13px;font-weight:400">· ${freqLabel(h.freq)} · ${TIMES[h.time]}</span></div><div class="laws">${esc(h.cue || "Nema okidača – dodaj ga (Zakon 1)")}</div></div><button class="btn sm" data-edit="${h.id}">Uredi</button></div>`).join("") || `<div class="empty">Nema aktivnih navika.</div>`}</div>
+    </div>
+    ${arch.length ? `<div class="panel"><div class="pad"><h2 style="font-size:18px">Arhivirane</h2></div><div class="hlist">${arch.map(h => `<div class="hitem"><div class="main"><div class="t">${esc(h.name)}</div></div><button class="btn sm" data-unarch="${h.id}">Vrati</button></div>`).join("")}</div></div>` : ""}
+    <div><h2 style="font-size:18px;margin-bottom:4px">Prijedlozi</h2><p class="muted" style="margin:0 0 12px">Najčešće navike iz aplikacija ovog tipa, prilagođene tvom ritmu (ustajanje 4:30, posao, djeca). Dodaj samo ono što ćeš stvarno raditi.</p>
+      ${groups.map(g => `<div class="eyebrow" style="margin:12px 0 6px">${g}</div><div class="lib">${LIB.filter(l => l.g === g).map(l => { const i = LIB.indexOf(l), h = have.has(l.name.toLowerCase()); return `<div class="libitem"><div class="main"><div class="t">${esc(l.name)}</div><div class="f">${freqLabel(l.freq)}</div></div>${h ? `<span class="pill g">Dodano</span>` : `<button class="btn sm" data-lib="${i}">Dodaj</button>`}</div>`; }).join("")}</div>`).join("")}
+    </div>
+  </div>`;
+}
+
+/* habit editor */
+let draft = null;
+function openHabit(h){
+  draft = h ? JSON.parse(JSON.stringify(h)) : { id:null, name:"", time:"jutro", freq:{type:"daily", days:[0,1,2,3,4], n:2, unit:"day"}, start:todayStr(), cue:"", attractive:"", easy:"", reward:"", stack:"", archived:false };
+  draft.freq.days ||= [0,1,2,3,4]; draft.freq.n ||= 2; draft.freq.unit ||= "day";
+  sheetHabit();
+}
+function sheetHabit(){
+  const f = draft.freq, others = S.habits.filter(h => !h.archived && h.id !== draft.id);
+  sheet(`<h2>${draft.id ? "Uredi naviku" : "Nova navika"}</h2>
+    <div class="field"><label for="h_name">Naziv</label><input type="text" id="h_name" value="${esc(draft.name)}" placeholder="npr. Fitness"></div>
+    <div class="field"><label>Doba dana</label><div class="seg">${Object.entries(TIMES).map(([k,l]) => `<button type="button" aria-pressed="${draft.time===k}" data-htime="${k}">${l}</button>`).join("")}</div></div>
+    <div class="field"><label>Ponavljanje</label><div class="seg">${[["daily","Svaki dan"],["weekdays","Određeni dani"],["interval","Svakih N…"]].map(([k,l]) => `<button type="button" aria-pressed="${f.type===k}" data-hfreq="${k}">${l}</button>`).join("")}</div></div>
+    ${f.type === "weekdays" ? `<div class="field"><div class="seg">${DOW.map((d,i) => `<button type="button" aria-pressed="${f.days.includes(i)}" data-hday="${i}">${d}</button>`).join("")}</div></div>` : ""}
+    ${f.type === "interval" ? `<div class="field"><div class="row"><span>Svakih</span><input type="number" id="h_n" min="1" max="99" value="${f.n}" style="width:80px"><select id="h_unit" style="width:auto">${[["day","dana"],["week","tjedana"],["month","mjeseci"]].map(([k,l]) => `<option value="${k}"${f.unit===k?" selected":""}>${l}</option>`).join("")}</select></div><span class="hint">Računa se od datuma početka.</span></div>` : ""}
+    <div class="field"><label for="h_start">Početak</label><input type="date" id="h_start" value="${draft.start}" style="max-width:200px"></div>
+    <div class="eyebrow" style="margin:18px 0 10px">4 zakona promjene ponašanja</div>
+    <div class="law"><div class="n">1 · OČITO</div><div class="field"><label for="h_cue">Okidač: kad i gdje?</label><input type="text" id="h_cue" value="${esc(draft.cue)}" placeholder="Kad [situacija], u [vrijeme] na [mjestu], ja ću [navika]."></div>
+      <div class="field"><label for="h_stack">Slaganje navika: nakon koje navike?</label><select id="h_stack"><option value="">—</option>${others.map(o => `<option value="${o.id}"${draft.stack===o.id?" selected":""}>Nakon: ${esc(o.name)}</option>`).join("")}</select></div></div>
+    <div class="law"><div class="n">2 · PRIVLAČNO</div><div class="field"><label for="h_attr">S čime je spajaš?</label><input type="text" id="h_attr" value="${esc(draft.attractive)}" placeholder="npr. podcast samo za vrijeme treninga"></div></div>
+    <div class="law"><div class="n">3 · LAKO</div><div class="field"><label for="h_easy">Verzija od 2 minute</label><input type="text" id="h_easy" value="${esc(draft.easy)}" placeholder="npr. obuci tenisice"></div></div>
+    <div class="law"><div class="n">4 · ZADOVOLJAVAJUĆE</div><div class="field"><label for="h_rew">Nagrada odmah nakon</label><input type="text" id="h_rew" value="${esc(draft.reward)}" placeholder="npr. kvačica + kava na terasi"></div></div>
+    <div class="sheetfoot">${draft.id ? `<div class="row"><button class="btn sm" data-act="harchive">Arhiviraj</button><button class="btn sm danger" data-act="hdel">Obriši</button></div>` : ""}
+      <div class="r"><button class="btn" data-act="close">Odustani</button><button class="btn pri" data-act="hsave">Spremi</button></div></div>
+    <div id="hconfirm"></div>`);
+}
+function readHabitForm(){
+  if (!draft) return;
+  const v = id => { const el = document.getElementById(id); return el ? el.value : undefined; };
+  draft.name = v("h_name") ?? draft.name; draft.start = v("h_start") || draft.start;
+  draft.cue = v("h_cue") ?? ""; draft.attractive = v("h_attr") ?? ""; draft.easy = v("h_easy") ?? ""; draft.reward = v("h_rew") ?? ""; draft.stack = v("h_stack") ?? "";
+  if (v("h_n") !== undefined) draft.freq.n = Math.max(1, parseInt(v("h_n")) || 1);
+  if (v("h_unit") !== undefined) draft.freq.unit = v("h_unit");
+}
+
+
+function heroHabits(){
+  const list = active(); let du = 0, dn = 0;
+  list.forEach(h => { const r = rate(h, 30); du += r.due; dn += r.done; });
+  const best = list.reduce((m, h) => Math.max(m, streaks(h).cur), 0);
+  // krivulja 1 % bolje / lošije kroz godinu
+  const W = 360, H = 200, L = 34, R = 10, T = 14, B = 26, max = 40;
+  const x = d => L + (W - L - R) * d / 365, y = v => T + (H - T - B) * (1 - Math.log10(v + 1) / Math.log10(max + 1));
+  let up = "", dw = "";
+  for (let d = 0; d <= 365; d += 5){ up += (d ? "L" : "M") + x(d).toFixed(1) + " " + y(Math.pow(1.01, d)).toFixed(1); dw += (d ? "L" : "M") + x(d).toFixed(1) + " " + y(Math.pow(0.99, d)).toFixed(1); }
+  const me = du ? dn / du : 0, mine = Math.pow(1 + 0.01 * (2*me - 1), 365);
+  return `<section class="glass hero"><div>
+      <div class="eyebrow">Atomic Habits · James Clear</div><h1>1 % bolje svaki dan</h1>
+      <p class="lead">Male navike se zbrajaju kao kamata. 1 % bolje kroz godinu daje 37,8 puta bolji rezultat, 1 % lošije gotovo nulu.</p>
+      <div class="facts"><div><b>${pct(dn, du)} %</b><span>dosljednost, 30 dana</span></div><div><b>${best}</b><span>najduži aktivni niz</span></div><div><b>${list.length}</b><span>aktivnih navika</span></div></div>
+    </div>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Krivulja: 1,01 na 365 = 37,8 nasuprot 0,99 na 365 = 0,03">
+      <defs><linearGradient id="gup" x1="0" x2="1"><stop offset="0" stop-color="#3DD6AE"/><stop offset="1" stop-color="#4AA6FF"/></linearGradient>
+      <linearGradient id="gfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4AA6FF" stop-opacity=".25"/><stop offset="1" stop-color="#3DD6AE" stop-opacity="0"/></linearGradient></defs>
+      ${[1, 10, 40].map(v => `<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="rgba(140,190,220,.12)"/><text x="${L-6}" y="${y(v)+4}" text-anchor="end">${v}×</text>`).join("")}
+      <path d="${up}L${x(365)} ${y(0)}L${x(0)} ${y(0)}Z" fill="url(#gfill)"/>
+      <path d="${dw}" fill="none" stroke="rgba(240,124,124,.7)" stroke-width="2" stroke-dasharray="4 4"/>
+      <path class="draw" style="--len:700" d="${up}" fill="none" stroke="url(#gup)" stroke-width="3" stroke-linecap="round"/>
+      <circle class="pulse" cx="${x(365)}" cy="${y(37.8)}" r="5" fill="#4AA6FF"/>
+      <text x="${x(365)-8}" y="${y(37.8)+18}" text-anchor="end" style="fill:#E7F0F4">1,01³⁶⁵ = 37,8</text>
+      <text x="${x(365)-8}" y="${y(0.03)-8}" text-anchor="end" style="fill:#F07C7C">0,99³⁶⁵ = 0,03</text>
+      <text x="${L}" y="${H-6}">dan 1</text><text x="${W-R}" y="${H-6}" text-anchor="end">dan 365</text>
+    </svg></section>`;
+}
+function heroFood(){
+  const types = Object.keys(MT), col = { dorucak:"#3DD6AE", rucak:"#4AA6FF", vecera:"#8B9CFF", uzina:"#5FE0D6" };
+  const cnt = types.map(k => { let n = 0; for (let d = 0; d < 7; d++) if ((S.plan[d]||{})[k]) n++; return n; });
+  const total = cnt.reduce((a, b) => a + b, 0), items = shopList().length;
+  const cx = 110, cy = 100, R0 = 78, gap = 4;
+  let arcs = "", legend = "";
+  const pt = (a, r) => [cx + r * Math.cos(a * Math.PI / 180), cy + r * Math.sin(a * Math.PI / 180)];
+  const arc = (from, to, r) => { const [x0, y0] = pt(from, r), [x1, y1] = pt(to, r); return `M${x0.toFixed(1)} ${y0.toFixed(1)}A${r} ${r} 0 0 1 ${x1.toFixed(1)} ${y1.toFixed(1)}`; };
+  types.forEach((k, i) => {
+    const a0 = -90 + i * 90 + gap / 2, a1 = a0 + 90 - gap, af = a0 + (90 - gap) * cnt[i] / 7;
+    arcs += `<path d="${arc(a0, a1, R0)}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14" stroke-linecap="round"/>`;
+    if (cnt[i]) arcs += `<path class="draw" style="--len:140" d="${arc(a0, af, R0)}" fill="none" stroke="${col[k]}" stroke-width="14" stroke-linecap="round"/>`;
+    const ly = 46 + i * 36, w = 96;
+    legend += `<circle cx="226" cy="${ly - 4}" r="4" fill="${col[k]}"/><text x="236" y="${ly}" style="fill:#E7F0F4;font-family:var(--f-body);font-size:12.5px">${MT[k]}</text><text x="350" y="${ly}" text-anchor="end">${cnt[i]}/7</text>
+      <rect x="236" y="${ly + 6}" width="${w + 18}" height="4" rx="2" fill="rgba(255,255,255,.07)"/><rect x="236" y="${ly + 6}" width="${((w + 18) * cnt[i] / 7).toFixed(1)}" height="4" rx="2" fill="${col[k]}"/>`;
+  });
+  return `<section class="glass hero"><div>
+      <div class="eyebrow">Plan prehrane</div><h1>Tjedan na tanjuru</h1>
+      <p class="lead">Upiši obroke, rasporedi ih po danima i dobij zbrojeni popis za trgovinu.</p>
+      <div class="facts"><div><b>${total}/28</b><span>obroka u planu</span></div><div><b>${S.meals.length}</b><span>prijedloga obroka</span></div><div><b>${items}</b><span>namirnica za kupiti</span></div></div>
+    </div>
+    <svg viewBox="0 0 360 200" role="img" aria-label="Popunjenost plana po vrsti obroka">
+      <g class="float"><circle cx="${cx}" cy="${cy}" r="56" fill="rgba(255,255,255,.03)" stroke="rgba(140,190,220,.18)"/>
+      <circle cx="${cx}" cy="${cy}" r="40" fill="none" stroke="rgba(140,190,220,.10)"/>
+      <text x="${cx}" y="${cy - 2}" text-anchor="middle" style="fill:#E7F0F4;font-size:22px">${total}</text><text x="${cx}" y="${cy + 16}" text-anchor="middle">od 28</text></g>
+      ${arcs}${legend}
+    </svg></section>`;
+}
+
+/* ============ PREHRANA ============ */
+function vFood(){
+  return `
+  ${heroFood()}
+  <div class="tabsrow"><span></span>
+    <div class="tabs" role="tablist">${[["meals","Obroci"],["plan","Plan"],["shop","Trgovina"]].map(([k,l]) => `<button role="tab" aria-selected="${tabP===k}" data-tabp="${k}">${l}</button>`).join("")}</div>
+  </div>
+  ${tabP === "meals" ? vMeals() : tabP === "plan" ? vPlan() : vShop()}`;
+}
+function vMeals(){
+  const ex = S.meals.some(m => m.example);
+  const types = mealFilter === "all" ? Object.keys(MT) : [mealFilter];
+  return `<div class="stack">
+    ${ex ? `<div class="alert w">Obroci označeni s „Primjer” su ogledni. Obriši ih kad uneseš svoje.</div>` : ""}
+    <div class="row" style="justify-content:space-between">
+      <div class="chips">${[["all","Svi"], ...Object.entries(MT)].map(([k,l]) => `<button class="chip" aria-pressed="${mealFilter===k}" data-mf="${k}">${l} ${k !== "all" ? `<span class="num muted">${S.meals.filter(m => m.type === k).length}</span>` : ""}</button>`).join("")}</div>
+      <button class="btn pri sm" data-act="newmeal">+ Novi obrok</button>
+    </div>
+    ${types.map(t => { const ms = S.meals.filter(m => m.type === t).sort((a,b) => a.title.localeCompare(b.title, "hr")); return `<div class="mgroup"><h3>${MT[t]} <span class="muted num" style="font-size:13px;font-weight:400">${ms.length} prijedloga</span></h3>
+      ${ms.length ? `<div class="mcards">${ms.map(m => `<button class="mcard glass" data-meal="${m.id}"><span class="t">${esc(m.title)}</span><span class="i">${m.ing.map(i => esc(i.name)).join(", ") || "Nema namirnica"}</span>${m.example ? `<span class="tag">Primjer</span>` : ""}</button>`).join("")}</div>` : `<div class="panel empty">Nema prijedloga za ${MT[t].toLowerCase()}.</div>`}</div>`; }).join("")}
+  </div>`;
+}
+let mdraft = null;
+function openMeal(m, type){
+  mdraft = m ? JSON.parse(JSON.stringify(m)) : { id:null, type: type || (mealFilter !== "all" ? mealFilter : "dorucak"), title:"", ing:[{name:"", qty:"", unit:"g"}], notes:"" };
+  if (!mdraft.ing.length) mdraft.ing.push({name:"", qty:"", unit:"g"});
+  sheetMeal();
+}
+function sheetMeal(){
+  const names = [...new Set(S.meals.flatMap(m => m.ing.map(i => i.name)).filter(Boolean))].sort((a,b) => a.localeCompare(b, "hr"));
+  sheet(`<h2>${mdraft.id ? "Uredi obrok" : "Novi obrok"}</h2>
+    <div class="row" style="align-items:flex-start">
+      <div class="field" style="flex:0 0 150px"><label for="m_type">Obrok</label><select id="m_type">${Object.entries(MT).map(([k,l]) => `<option value="${k}"${mdraft.type===k?" selected":""}>${l}</option>`).join("")}</select></div>
+      <div class="field" style="flex:1 1 220px"><label for="m_title">Naslov</label><input type="text" id="m_title" value="${esc(mdraft.title)}" placeholder="npr. Zobena kaša s bananom"></div>
+    </div>
+    <div class="field"><label>Namirnice</label>
+      <div class="inghead"><span>Namirnica</span><span>Količina</span><span>Jedinica</span><span></span></div>
+      ${mdraft.ing.map((i, k) => `<div class="ing"><input type="text" list="inglist" data-ing="${k}" data-f="name" value="${esc(i.name)}" placeholder="npr. Jaja" aria-label="Namirnica"><input type="number" step="any" min="0" data-ing="${k}" data-f="qty" value="${i.qty}" aria-label="Količina"><select data-ing="${k}" data-f="unit" aria-label="Jedinica">${UNITS.map(u => `<option${i.unit===u?" selected":""}>${u}</option>`).join("")}</select><button class="x" data-ingdel="${k}" aria-label="Ukloni">×</button></div>`).join("")}
+      <datalist id="inglist">${names.map(n => `<option value="${esc(n)}">`).join("")}</datalist>
+      <div><button class="btn sm" data-act="ingadd">+ Namirnica</button></div>
+      <span class="hint">Isti naziv i jedinica se zbrajaju u popisu za trgovinu. Piši nazive uvijek jednako (npr. uvijek „Jaja”).</span>
+    </div>
+    <div class="field"><label for="m_notes">Napomena / recept</label><textarea id="m_notes" placeholder="Priprema, vrijeme kuhanja…">${esc(mdraft.notes)}</textarea></div>
+    <div class="sheetfoot">${mdraft.id ? `<button class="btn sm danger" data-act="mdel">Obriši</button>` : ""}<div class="r"><button class="btn" data-act="close">Odustani</button><button class="btn pri" data-act="msave">Spremi</button></div></div>
+    <div id="mconfirm"></div>`);
+}
+function readMealForm(){
+  if (!mdraft) return;
+  const t = document.getElementById("m_title"); if (t) mdraft.title = t.value;
+  const ty = document.getElementById("m_type"); if (ty) mdraft.type = ty.value;
+  const n = document.getElementById("m_notes"); if (n) mdraft.notes = n.value;
+  document.querySelectorAll("[data-ing]").forEach(el => { const k = +el.dataset.ing; if (mdraft.ing[k]) mdraft.ing[k][el.dataset.f] = el.value; });
+}
+function vPlan(){
+  const opts = (t, sel) => `<option value="">—</option>` + S.meals.filter(m => m.type === t).sort((a,b) => a.title.localeCompare(b.title, "hr")).map(m => `<option value="${m.id}"${sel===m.id?" selected":""}>${esc(m.title)}</option>`).join("");
+  const td = isoDow(new Date()); let filled = 0;
+  for (let d = 0; d < 7; d++) Object.keys(MT).forEach(k => { if ((S.plan[d]||{})[k]) filled++; });
+  return `<div class="stack">
+    <div class="row" style="justify-content:space-between"><span class="muted">Popunjeno <span class="num">${filled}/28</span> obroka. Promjene odmah ulaze u popis za trgovinu.</span>
+      <div class="row"><button class="btn sm" data-act="fillplan">Popuni prazna nasumično</button><button class="btn sm" data-act="clearplan">Očisti plan</button></div></div>
+    <div id="planconfirm"></div>
+    <div class="week">${DOW_FULL.map((dn, d) => `<div class="panel day${d===td?" now":""}"><h3>${dn}${d===td?' <span class="pill g">danas</span>':""}</h3>
+      ${Object.entries(MT).map(([k,l]) => `<div class="slot"><label for="p_${d}_${k}">${l}</label><select id="p_${d}_${k}" data-plan="${d}|${k}">${opts(k, (S.plan[d]||{})[k])}</select></div>`).join("")}</div>`).join("")}</div>
+  </div>`;
+}
+function shopList(){
+  const map = new Map();
+  for (let d = 0; d < 7; d++) Object.keys(MT).forEach(k => {
+    const m = S.meals.find(x => x.id === (S.plan[d]||{})[k]); if (!m) return;
+    m.ing.forEach(i => {
+      if (!i.name || !String(i.name).trim()) return;
+      const key = i.name.trim().toLowerCase() + "|" + i.unit;
+      const e = map.get(key) || { key, name:i.name.trim(), unit:i.unit, qty:0, meals:new Set() };
+      e.qty += parseFloat(String(i.qty).replace(",", ".")) || 0; e.meals.add(m.title); map.set(key, e);
+    });
+  });
+  return [...map.values()].sort((a,b) => a.name.localeCompare(b.name, "hr"));
+}
+function fmtQty(q, u){ if (u === "g" && q >= 1000) return fmtNum(q/1000) + " kg"; if (u === "ml" && q >= 1000) return fmtNum(q/1000) + " l"; return fmtNum(q) + " " + u; }
+function vShop(){
+  const list = shopList(), got = list.filter(x => S.bought[x.key]).length;
+  const nameCount = {}; list.forEach(x => { const n = x.name.toLowerCase(); nameCount[n] = (nameCount[n]||0) + 1; });
+  return `<div class="stack">
+    <div class="row" style="justify-content:space-between"><span class="muted">Zbrojeno iz tjednog plana · <span class="num">${got}/${list.length}</span> u košarici</span>
+      <div class="row"><button class="btn sm" data-act="copyshop">Kopiraj popis</button><button class="btn sm" data-act="resetshop">Poništi kvačice</button></div></div>
+    <div class="panel shop">${list.length ? list.map(x => `<label class="sitem${S.bought[x.key] ? " got" : ""}"><input type="checkbox" data-buy="${esc(x.key)}"${S.bought[x.key] ? " checked" : ""}><span class="nm">${esc(x.name)}${nameCount[x.name.toLowerCase()] > 1 ? ` <span class="pill w">različite jedinice</span>` : ""}<small>${[...x.meals].map(esc).join(" · ")}</small></span><span class="q">${fmtQty(x.qty, x.unit)}</span></label>`).join("") : `<div class="empty">Plan je prazan. Odaberi obroke pod „Plan”.</div>`}</div>
+    <textarea id="shoptxt" readonly hidden></textarea>
+  </div>`;
+}
+
+/* ============ sheet ============ */
+function sheet(html){ $("#sheetroot").innerHTML = `<div class="scrim" data-scrim="1"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>`; const f = $("#sheetroot input, #sheetroot textarea"); if (f && matchMedia("(min-width:700px)").matches) f.focus(); }
+function closeSheet(){ $("#sheetroot").innerHTML = ""; draft = null; mdraft = null; }
+
+function sheetSettings(){
+  const pk = !DEMO && window.PublicKeyCredential;
+  sheet(`<h2>Postavke</h2>
+    <div class="stack">
+      <div class="panel pad"><div class="eyebrow">Račun</div>
+        ${DEMO ? `<p style="margin:6px 0 0">Demo način. Podaci se spremaju samo u ovaj preglednik. Za sinkronizaciju između uređaja treba upisati Supabase podatke u konfiguraciju stranice.</p>`
+        : `<p style="margin:6px 0 10px">Prijavljen: <b>${esc(user && user.email)}</b></p>
+           <div class="row">${pk ? `<button class="btn pri sm" data-act="regpasskey">Dodaj otisak prsta na ovom uređaju</button>` : `<span class="muted">Ovaj preglednik ne podržava passkey.</span>`}<button class="btn sm" data-act="logout">Odjava</button></div>
+           <p class="muted" style="font-size:13px;margin:8px 0 0">Otisak registriraj jednom na svakom uređaju (mobitel, računalo). Nakon toga se prijavljuješ samo prstom.</p><div id="pkmsg" class="msg"></div>`}
+      </div>
+      <div class="panel pad"><div class="eyebrow">Uvoz obroka / sigurnosna kopija</div>
+        <p style="margin:6px 0 8px;font-size:14px">Zalijepi JSON koji ti pripremi Claude (npr. iz screenshotova aplikacije). Obroci istog naziva i vrste se zamjenjuju.</p>
+        <textarea id="imp" placeholder='{"meals":[...]}'></textarea>
+        <div class="row" style="margin-top:8px"><button class="btn sm pri" data-act="import">Uvezi</button><button class="btn sm" data-act="export">Kopiraj sve podatke (JSON)</button></div>
+        <div id="impmsg" class="msg"></div>
+      </div>
+      ${DEMO ? `<div class="panel pad"><div class="eyebrow">Demo</div><div class="row" style="margin-top:8px"><button class="btn sm danger" data-act="resetdemo">Vrati primjer podataka</button></div></div>` : ""}
+    </div>
+    <div class="sheetfoot"><div class="r"><button class="btn" data-act="close">Zatvori</button></div></div>`);
+}
+
+/* ============ događaji ============ */
+document.addEventListener("click", async e => {
+  const t = e.target.closest("[data-go],[data-act],[data-tog],[data-tabh],[data-tabp],[data-edit],[data-lib],[data-unarch],[data-htime],[data-hfreq],[data-hday],[data-mf],[data-meal],[data-ingdel],[data-scrim]");
+  if (!t) return;
+  const ds = t.dataset;
+  if (ds.scrim && e.target === t) return closeSheet();
+  if (ds.scrim) return;
+  if (ds.go) return go(ds.go);
+  if (ds.tabh){ tabH = ds.tabh; animate = true; return render(); }
+  if (ds.tabp){ tabP = ds.tabp; animate = true; return render(); }
+  if (ds.tog){
+    const [id, day] = ds.tog.split("|"); if (day > todayStr()) return;
+    const arr = S.checks[day] || (S.checks[day] = []); const i = arr.indexOf(id);
+    i >= 0 ? arr.splice(i, 1) : arr.push(id); if (!arr.length) delete S.checks[day];
+    save("checks"); lastTog = ds.tog; return render();
+  }
+  if (ds.edit){ return openHabit(S.habits.find(h => h.id === ds.edit)); }
+  if (ds.lib){ const l = LIB[+ds.lib]; openHabit(null); Object.assign(draft, { name:l.name, time:l.time, freq:{ ...{days:[0,1,2,3,4], n:2, unit:"day"}, ...JSON.parse(JSON.stringify(l.freq)) }, cue:l.cue, attractive:l.attractive, easy:l.easy, reward:l.reward }); return sheetHabit(); }
+  if (ds.unarch){ const h = S.habits.find(x => x.id === ds.unarch); h.archived = false; save("habits"); return render(); }
+  if (ds.htime){ readHabitForm(); draft.time = ds.htime; return sheetHabit(); }
+  if (ds.hfreq){ readHabitForm(); draft.freq.type = ds.hfreq; return sheetHabit(); }
+  if (ds.hday){ readHabitForm(); const d = +ds.hday, a = draft.freq.days; a.includes(d) ? a.splice(a.indexOf(d), 1) : a.push(d); return sheetHabit(); }
+  if (ds.mf){ mealFilter = ds.mf; return render(); }
+  if (ds.meal){ return openMeal(S.meals.find(m => m.id === ds.meal)); }
+  if (ds.ingdel){ readMealForm(); mdraft.ing.splice(+ds.ingdel, 1); if (!mdraft.ing.length) mdraft.ing.push({name:"", qty:"", unit:"g"}); return sheetMeal(); }
+  const a = ds.act;
+  if (a === "close") return closeSheet();
+  if (a === "settings") return sheetSettings();
+  if (a === "newhabit") return openHabit(null);
+  if (a === "hsave"){
+    readHabitForm();
+    if (!draft.name.trim()) { toast("Upiši naziv navike"); return; }
+    if (draft.freq.type === "weekdays" && !draft.freq.days.length) { toast("Odaberi barem jedan dan"); return; }
+    const clean = { ...draft, name: draft.name.trim(), freq: draft.freq.type === "daily" ? {type:"daily"} : draft.freq.type === "weekdays" ? {type:"weekdays", days:[...draft.freq.days].sort()} : {type:"interval", n:draft.freq.n, unit:draft.freq.unit} };
+    if (clean.id) S.habits[S.habits.findIndex(h => h.id === clean.id)] = clean; else { clean.id = uid(); S.habits.push(clean); }
+    save("habits"); closeSheet(); render(); toast("Spremljeno"); return;
+  }
+  if (a === "harchive"){ const h = S.habits.find(x => x.id === draft.id); h.archived = true; save("habits"); closeSheet(); render(); toast("Arhivirano – povijest je sačuvana"); return; }
+  if (a === "hdel"){ $("#hconfirm").innerHTML = `<div class="alert b" style="margin-top:12px">Brisanjem se gubi i sva povijest ove navike. Arhiviranje je čuva. <button class="btn sm danger" data-act="hdel2">Obriši trajno</button></div>`; return; }
+  if (a === "hdel2"){ const id = draft.id; S.habits = S.habits.filter(h => h.id !== id); Object.keys(S.checks).forEach(d => { S.checks[d] = S.checks[d].filter(x => x !== id); if (!S.checks[d].length) delete S.checks[d]; }); save("habits"); save("checks"); closeSheet(); render(); toast("Obrisano"); return; }
+  if (a === "identity"){ sheet(`<h2>Identitet</h2><p class="muted" style="margin-top:-6px">Prema knjizi: navike mijenjaš trajno kad mijenjaš sliku o sebi. Svaka kvačica je glas za osobu koja želiš postati.</p><div class="field"><label for="idt">Postajem osoba koja je…</label><input type="text" id="idt" value="${esc(S.identity)}"></div><div class="sheetfoot"><div class="r"><button class="btn" data-act="close">Odustani</button><button class="btn pri" data-act="idsave">Spremi</button></div></div>`); return; }
+  if (a === "idsave"){ S.identity = $("#idt").value.trim(); save("identity"); closeSheet(); render(); return; }
+  if (a === "newmeal") return openMeal(null);
+  if (a === "ingadd"){ readMealForm(); mdraft.ing.push({name:"", qty:"", unit:"g"}); sheetMeal(); const last = document.querySelectorAll('[data-f="name"]'); last[last.length-1].focus(); return; }
+  if (a === "msave"){
+    readMealForm();
+    if (!mdraft.title.trim()) { toast("Upiši naslov obroka"); return; }
+    const clean = { ...mdraft, title: mdraft.title.trim(), example:false, ing: mdraft.ing.filter(i => String(i.name).trim()).map(i => ({ name:String(i.name).trim(), qty: parseFloat(String(i.qty).replace(",", ".")) || 0, unit:i.unit })) };
+    if (clean.id) S.meals[S.meals.findIndex(m => m.id === clean.id)] = clean; else { clean.id = uid(); S.meals.push(clean); }
+    save("meals"); closeSheet(); render(); toast("Spremljeno"); return;
+  }
+  if (a === "mdel"){ $("#mconfirm").innerHTML = `<div class="alert b" style="margin-top:12px">Obrok će se maknuti i iz plana. <button class="btn sm danger" data-act="mdel2">Obriši</button></div>`; return; }
+  if (a === "mdel2"){ const id = mdraft.id; S.meals = S.meals.filter(m => m.id !== id); Object.values(S.plan).forEach(p => Object.keys(p).forEach(k => { if (p[k] === id) delete p[k]; })); save("meals"); save("plan"); closeSheet(); render(); return; }
+  if (a === "clearplan"){ $("#planconfirm").innerHTML = `<div class="alert b">Očistiti cijeli tjedni plan? <button class="btn sm danger" data-act="clearplan2">Očisti</button> <button class="btn sm" data-act="cancelplan">Ne</button></div>`; return; }
+  if (a === "cancelplan"){ $("#planconfirm").innerHTML = ""; return; }
+  if (a === "clearplan2"){ S.plan = {}; S.bought = {}; save("plan"); save("bought"); render(); return; }
+  if (a === "fillplan"){ for (let d = 0; d < 7; d++){ S.plan[d] ||= {}; Object.keys(MT).forEach(k => { if (!S.plan[d][k]){ const ms = S.meals.filter(m => m.type === k); if (ms.length) S.plan[d][k] = ms[Math.floor(Math.random()*ms.length)].id; } }); } save("plan"); render(); return; }
+  if (a === "resetshop"){ S.bought = {}; save("bought"); render(); return; }
+  if (a === "copyshop"){
+    const txt = "Kupovina:\n" + shopList().filter(x => !S.bought[x.key]).map(x => `- ${x.name} – ${fmtQty(x.qty, x.unit)}`).join("\n");
+    try { await navigator.clipboard.writeText(txt); toast("Popis kopiran"); } catch(err){ const ta = $("#shoptxt"); ta.hidden = false; ta.value = txt; ta.select(); toast("Označeno – kopiraj ručno"); }
+    return;
+  }
+  if (a === "export"){
+    const txt = JSON.stringify(S);
+    try { await navigator.clipboard.writeText(txt); $("#impmsg").textContent = "Svi podaci kopirani u međuspremnik."; } catch(err){ $("#imp").value = txt; $("#imp").select(); $("#impmsg").textContent = "Označeno u polju iznad – kopiraj ručno."; }
+    return;
+  }
+  if (a === "import"){
+    try{
+      const j = JSON.parse($("#imp").value); const arr = Array.isArray(j) ? j : (j.meals || []);
+      let n = 0;
+      arr.forEach(m => {
+        if (!m.title || !MT[m.type]) return;
+        const clean = { id:uid(), type:m.type, title:String(m.title).trim(), notes:m.notes || "", example:false, ing:(m.ing || m.ingredients || []).map(i => ({ name:String(i.name).trim(), qty:+i.qty || 0, unit: UNITS.includes(i.unit) ? i.unit : "g" })) };
+        const ex = S.meals.findIndex(x => x.type === clean.type && x.title.toLowerCase() === clean.title.toLowerCase());
+        if (ex >= 0){ clean.id = S.meals[ex].id; S.meals[ex] = clean; } else S.meals.push(clean); n++;
+      });
+      if (j.habits && Array.isArray(j.habits) && j.checks){ KEYS.forEach(k => { if (j[k] !== undefined) S[k] = j[k]; }); KEYS.forEach(save); $("#impmsg").textContent = "Vraćena cijela sigurnosna kopija."; }
+      else { save("meals"); $("#impmsg").textContent = `Uvezeno obroka: ${n}.`; }
+      render();
+    }catch(err){ $("#impmsg").textContent = "JSON nije ispravan. Provjeri da je zalijepljen cijeli tekst."; }
+    return;
+  }
+  if (a === "resetdemo"){ seed(true); KEYS.forEach(save); closeSheet(); render(); return; }
+  if (a === "logout"){ await sb.auth.signOut(); location.reload(); return; }
+  if (a === "regpasskey"){
+    const m = $("#pkmsg"); m.textContent = "Slijedi upute uređaja…";
+    const { error } = await sb.auth.registerPasskey();
+    m.textContent = error ? "Nije uspjelo: " + error.message : "Otisak je registriran. Sljedeći put se prijavi otiskom.";
+    return;
+  }
+  if (a === "pklogin"){
+    const m = $("#loginmsg"); m.textContent = "Slijedi upute uređaja…";
+    const { error } = await sb.auth.signInWithPasskey();
+    if (error) m.textContent = "Prijava otiskom nije uspjela. Ako ovaj uređaj još nema registriran otisak, prijavi se emailom pa ga dodaj u Postavkama.";
+    return;
+  }
+  if (a === "maillogin"){
+    const email = $("#lemail").value.trim(), m = $("#loginmsg");
+    if (!email) { m.textContent = "Upiši email."; return; }
+    const { error } = await sb.auth.signInWithOtp({ email, options:{ emailRedirectTo: location.origin + location.pathname, shouldCreateUser: true } });
+    m.textContent = error ? "Greška: " + error.message : "Link za prijavu je poslan na email. Otvori ga na ovom uređaju.";
+    return;
+  }
+});
+document.addEventListener("change", e => {
+  const t = e.target;
+  if (t.id === "days"){ days = +t.value; return render(); }
+  if (t.id === "range"){ statRange = +t.value; return render(); }
+  if (t.dataset.plan){ const [d, k] = t.dataset.plan.split("|"); S.plan[d] ||= {}; t.value ? S.plan[d][k] = t.value : delete S.plan[d][k]; save("plan"); return; }
+  if (t.dataset.buy){ t.checked ? S.bought[t.dataset.buy] = true : delete S.bought[t.dataset.buy]; save("bought"); t.closest(".sitem").classList.toggle("got", t.checked); return; }
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape" && $("#sheetroot").innerHTML) closeSheet(); });
+
+/* ============ pokretanje ============ */
+function vLogin(){
+  return `<div class="panel login"><div class="eyebrow">Privatno</div><h1>Prijava</h1><p class="muted" style="margin:0 0 18px">Stranica je zaključana. Pristup imaš samo ti.</p>
+    ${window.PublicKeyCredential ? `<button class="btn pri" style="width:100%;justify-content:center;padding:12px" data-act="pklogin"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 11c0 3-1 6-3 8M8 6.5A6 6 0 0 1 18 11c0 2 0 4-1 6M6 9a6 6 0 0 0-.5 2.5c0 1.5-.3 3-1 4.5M12 7a4 4 0 0 1 4 4c0 1.2-.1 2.4-.4 3.6M9.5 8.5A4 4 0 0 0 8 11c0 2-.4 4-1.5 6M12 11v1c0 2.5-.6 5-2 7"/></svg>Prijava otiskom prsta</button><div class="or">ili</div>` : ""}
+    <div class="field"><label for="lemail">Email</label><input type="email" id="lemail" autocomplete="email" placeholder="tvoj@email.com"></div>
+    <button class="btn" style="width:100%;justify-content:center" data-act="maillogin">Pošalji link za prijavu</button>
+    <div id="loginmsg" class="msg muted"></div></div>`;
+}
+function loadScript(src){ return new Promise((res, rej) => { const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = rej; document.head.appendChild(s); }); }
+async function startApp(remote){
+  if (remote){
+    const has = Object.keys(remote).length;
+    if (!has){ seed(false); KEYS.forEach(save); }
+    else KEYS.forEach(k => { if (remote[k] !== undefined) S[k] = remote[k]; });
+  }
+  const h = (location.hash || "").replace("#", ""); route = ["habits","food"].includes(h) ? h : "home";
+  render();
+}
+async function boot(){
+  if (DEMO){
+    const raw = lsGet("pwp_demo");
+    if (raw) { try { Object.assign(S, JSON.parse(raw)); } catch(e){ seed(true); } } else seed(true);
+    $("#banner").hidden = false;
+    $("#bannertxt").textContent = "Demo način: primjer podataka, spremanje samo u ovom pregledniku. Prava verzija se sinkronizira između uređaja i otključava otiskom prsta.";
+    setSync("", "Demo · samo ovaj uređaj");
+    return startApp(null);
+  }
+  setSync("busy", "Povezujem…");
+  try { await loadScript(SB_SRC); } catch(e){ setSync("err", "Nema veze"); $("#view").innerHTML = `<div class="empty">Ne mogu učitati sinkronizaciju. Provjeri internet i osvježi stranicu.</div>`; return; }
+  sb = supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_KEY, { auth:{ persistSession:true, detectSessionInUrl:true, experimental:{ passkey:true } } });
+  let started = false;
+  const begin = async session => {
+    if (!session){ user = null; started = false; setSync("", "Odjavljen"); $("#view").innerHTML = vLogin(); return; }
+    if (started) return; started = true; user = session.user;
+    try { const remote = await loadRemote(); setSync("ok", "Sinkronizirano"); await startApp(remote); }
+    catch(e){ setSync("err", "Greška baze"); $("#view").innerHTML = `<div class="empty">Ne mogu učitati podatke: ${esc(e.message)}</div>`; }
+  };
+  sb.auth.onAuthStateChange((_ev, session) => { setTimeout(() => begin(session), 0); });
+  const { data } = await sb.auth.getSession(); begin(data.session);
+  document.addEventListener("visibilitychange", async () => {
+    if (document.visibilityState !== "visible" || !user || pending.size || $("#sheetroot").innerHTML) return;
+    try { const r = await loadRemote(); KEYS.forEach(k => { if (r[k] !== undefined) S[k] = r[k]; }); setSync("ok", "Sinkronizirano"); render(); } catch(e){}
+  });
+}
+boot();
+</script>
+
+</body>
+</html>
