@@ -481,7 +481,7 @@ function seed(withDemoChecks){
   S.meals = exMeals();
   const by = t => S.meals.filter(m => m.type === t);
   S.plan = {};
-  for (let d = 0; d < 7; d++) S.plan[d] = { dorucak:by("dorucak")[d%2].id, rucak:by("rucak")[d%2].id, vecera:by("vecera")[(d+1)%2].id, uzina:by("uzina")[d%2].id };
+  if (withDemoChecks) for (let d = 0; d < 7; d++) S.plan[d] = { dorucak:by("dorucak")[d%2].id, rucak:by("rucak")[d%2].id, vecera:by("vecera")[(d+1)%2].id, uzina:by("uzina")[d%2].id };
   S.checks = {};
   if (withDemoChecks){ // primjer povijesti, determinističan
     let seedN = 7; const rnd = () => (seedN = (seedN * 9301 + 49297) % 233280) / 233280;
@@ -520,7 +520,7 @@ function ring(p, label, sub){
 function vHome(){
   const t = todayStr(), due = active().filter(h => isDue(h, t)), done = due.filter(h => isDone(h, t));
   const plan = S.plan[isoDow(new Date())] || {};
-  const name = id => (S.meals.find(m => m.id === id) || {}).title;
+  const name = id => (S.meals.find(m => m.id === id) || {}).title; // eslint
   const h = new Date().getHours(), greet = h < 10 ? "Dobro jutro" : h < 18 ? "Dobar dan" : "Dobra večer";
   const d = new Date();
   const week = active().reduce((a, x) => { const r = rate(x, 7); a.d += r.done; a.t += r.due; return a; }, {d:0, t:0});
@@ -753,7 +753,7 @@ function heroHabits(){
 }
 function heroFood(){
   const types = Object.keys(MT), col = { dorucak:"#3DD6AE", rucak:"#4AA6FF", vecera:"#8B9CFF", uzina:"#5FE0D6" };
-  const cnt = types.map(k => { let n = 0; for (let d = 0; d < 7; d++) if ((S.plan[d]||{})[k]) n++; return n; });
+  const cnt = types.map(k => { let n = 0; for (let d = 0; d < 7; d++) if (planMeal(d, k)) n++; return n; });
   const total = cnt.reduce((a, b) => a + b, 0), items = shopList().length;
   const cx = 110, cy = 100, R0 = 78, gap = 4;
   let arcs = "", legend = "";
@@ -834,9 +834,10 @@ function readMealForm(){
   document.querySelectorAll("[data-ing]").forEach(el => { const k = +el.dataset.ing; if (mdraft.ing[k]) mdraft.ing[k][el.dataset.f] = el.value; });
 }
 function vPlan(){
+  cleanPlan();
   const opts = (t, sel) => `<option value="">—</option>` + S.meals.filter(m => m.type === t).sort((a,b) => a.title.localeCompare(b.title, "hr")).map(m => `<option value="${m.id}"${sel===m.id?" selected":""}>${esc(m.title)}</option>`).join("");
   const td = isoDow(new Date()); let filled = 0;
-  for (let d = 0; d < 7; d++) Object.keys(MT).forEach(k => { if ((S.plan[d]||{})[k]) filled++; });
+  for (let d = 0; d < 7; d++) Object.keys(MT).forEach(k => { if (planMeal(d, k)) filled++; });
   return `<div class="stack">
     <div class="row" style="justify-content:space-between"><span class="muted">Popunjeno <span class="num">${filled}/28</span> obroka. Promjene odmah ulaze u popis za trgovinu.</span>
       <div class="row"><button class="btn sm" data-act="fillplan">Popuni prazna nasumično</button><button class="btn sm" data-act="clearplan">Očisti plan</button></div></div>
@@ -845,27 +846,56 @@ function vPlan(){
       ${Object.entries(MT).map(([k,l]) => `<div class="slot"><label for="p_${d}_${k}">${l}</label><select id="p_${d}_${k}" data-plan="${d}|${k}">${opts(k, (S.plan[d]||{})[k])}</select></div>`).join("")}</div>`).join("")}</div>
   </div>`;
 }
+const UNIT_BASE = { g:["g",1], kg:["g",1000], ml:["ml",1], l:["ml",1000] };
+const normName = n => String(n || "").trim().replace(/\s+/g, " ");
+function planMeal(d, k){ // samo obrok koji postoji i odgovara vrsti slota
+  const id = (S.plan[d] || {})[k]; if (!id) return null;
+  const m = S.meals.find(x => x.id === id);
+  return m && m.type === k ? m : null;
+}
+function cleanPlan(){ // makni zapise koji upućuju na obrisane obroke ili obroke druge vrste
+  let changed = false;
+  Object.keys(S.plan).forEach(d => Object.keys(S.plan[d] || {}).forEach(k => { if (!planMeal(d, k)) { delete S.plan[d][k]; changed = true; } }));
+  if (changed) save("plan");
+}
+function planCounts(){
+  const c = new Map();
+  for (let d = 0; d < 7; d++) Object.keys(MT).forEach(k => { const m = planMeal(d, k); if (m) c.set(m.id, { m, n:(c.get(m.id)?.n || 0) + 1 }); });
+  return [...c.values()];
+}
 function shopList(){
   const map = new Map();
-  for (let d = 0; d < 7; d++) Object.keys(MT).forEach(k => {
-    const m = S.meals.find(x => x.id === (S.plan[d]||{})[k]); if (!m) return;
-    m.ing.forEach(i => {
-      if (!i.name || !String(i.name).trim()) return;
-      const key = i.name.trim().toLowerCase() + "|" + i.unit;
-      const e = map.get(key) || { key, name:i.name.trim(), unit:i.unit, qty:0, meals:new Set() };
-      e.qty += parseFloat(String(i.qty).replace(",", ".")) || 0; e.meals.add(m.title); map.set(key, e);
+  planCounts().forEach(({ m, n }) => {
+    (m.ing || []).forEach(i => {
+      const name = normName(i.name); if (!name) return;
+      const qty = parseFloat(String(i.qty ?? "").replace(",", ".")) || 0;
+      const [bu, f] = UNIT_BASE[i.unit] || [i.unit, 1];
+      const key = name.toLowerCase() + "|" + bu;
+      const e = map.get(key) || { key, name, unit:bu, qty:0, parts:[] };
+      e.qty += qty * f * n;
+      e.parts.push({ title:m.title, per:qty, unit:i.unit, n });
+      map.set(key, e);
     });
   });
   return [...map.values()].sort((a,b) => a.name.localeCompare(b.name, "hr"));
 }
 function fmtQty(q, u){ if (u === "g" && q >= 1000) return fmtNum(q/1000) + " kg"; if (u === "ml" && q >= 1000) return fmtNum(q/1000) + " l"; return fmtNum(q) + " " + u; }
 function vShop(){
+  cleanPlan();
+  const counts = planCounts().sort((a,b) => b.n - a.n || a.m.title.localeCompare(b.m.title, "hr"));
+  const total = counts.reduce((a, x) => a + x.n, 0);
+  const noIng = counts.filter(x => !(x.m.ing || []).some(i => normName(i.name)));
   const list = shopList(), got = list.filter(x => S.bought[x.key]).length;
   const nameCount = {}; list.forEach(x => { const n = x.name.toLowerCase(); nameCount[n] = (nameCount[n]||0) + 1; });
   return `<div class="stack">
-    <div class="row" style="justify-content:space-between"><span class="muted">Zbrojeno iz tjednog plana · <span class="num">${got}/${list.length}</span> u košarici</span>
+    <div class="panel pad">
+      <div class="eyebrow" style="margin-bottom:8px">Iz plana se računa ${total} obroka</div>
+      ${counts.length ? `<div class="chips">${counts.map(x => `<span class="chip" style="cursor:default">${esc(x.m.title)} <span class="num" style="color:var(--accent)">×${x.n}</span></span>`).join("")}</div>` : `<span class="muted">Plan je prazan.</span>`}
+      ${noIng.length ? `<div class="alert w" style="margin-top:10px">Bez upisanih namirnica (ne ulaze u popis): <b>${noIng.map(x => esc(x.m.title)).join(", ")}</b>. Otvori obrok i dodaj namirnice s količinama.</div>` : ""}
+    </div>
+    <div class="row" style="justify-content:space-between"><span class="muted">Količina = količina u receptu × broj puta u planu · <span class="num">${got}/${list.length}</span> u košarici</span>
       <div class="row"><button class="btn sm" data-act="copyshop">Kopiraj popis</button><button class="btn sm" data-act="resetshop">Poništi kvačice</button></div></div>
-    <div class="panel shop">${list.length ? list.map(x => `<label class="sitem${S.bought[x.key] ? " got" : ""}"><input type="checkbox" data-buy="${esc(x.key)}"${S.bought[x.key] ? " checked" : ""}><span class="nm">${esc(x.name)}${nameCount[x.name.toLowerCase()] > 1 ? ` <span class="pill w">različite jedinice</span>` : ""}<small>${[...x.meals].map(esc).join(" · ")}</small></span><span class="q">${fmtQty(x.qty, x.unit)}</span></label>`).join("") : `<div class="empty">Plan je prazan. Odaberi obroke pod „Plan”.</div>`}</div>
+    <div class="panel shop">${list.length ? list.map(x => `<label class="sitem${S.bought[x.key] ? " got" : ""}"><input type="checkbox" data-buy="${esc(x.key)}"${S.bought[x.key] ? " checked" : ""}><span class="nm">${esc(x.name)}${nameCount[x.name.toLowerCase()] > 1 ? ` <span class="pill w">različite jedinice</span>` : ""}<small>${x.parts.map(p => `${esc(p.title)}: ${fmtNum(p.per)} ${esc(p.unit)} × ${p.n}`).join(" · ")}</small></span><span class="q">${fmtQty(x.qty, x.unit)}</span></label>`).join("") : `<div class="empty">Nema namirnica. Odaberi obroke pod „Plan” i provjeri da obroci imaju upisane namirnice.</div>`}</div>
     <textarea id="shoptxt" readonly hidden></textarea>
   </div>`;
 }
@@ -944,7 +974,7 @@ document.addEventListener("click", async e => {
     if (!mdraft.title.trim()) { toast("Upiši naslov obroka"); return; }
     const clean = { ...mdraft, title: mdraft.title.trim(), example:false, ing: mdraft.ing.filter(i => String(i.name).trim()).map(i => ({ name:String(i.name).trim(), qty: parseFloat(String(i.qty).replace(",", ".")) || 0, unit:i.unit })) };
     if (clean.id) S.meals[S.meals.findIndex(m => m.id === clean.id)] = clean; else { clean.id = uid(); S.meals.push(clean); }
-    save("meals"); closeSheet(); render(); toast("Spremljeno"); return;
+    save("meals"); cleanPlan(); closeSheet(); render(); toast("Spremljeno"); return;
   }
   if (a === "mdel"){ $("#mconfirm").innerHTML = `<div class="alert b" style="margin-top:12px">Obrok će se maknuti i iz plana. <button class="btn sm danger" data-act="mdel2">Obriši</button></div>`; return; }
   if (a === "mdel2"){ const id = mdraft.id; S.meals = S.meals.filter(m => m.id !== id); Object.values(S.plan).forEach(p => Object.keys(p).forEach(k => { if (p[k] === id) delete p[k]; })); save("meals"); save("plan"); closeSheet(); render(); return; }
